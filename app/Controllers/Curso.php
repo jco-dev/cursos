@@ -19,7 +19,7 @@ class Curso extends BaseController
     public $certificado_model;
     public $personalizacion_model;
     public $entrega_model;
-    public $numeroAnterior = NULL;
+    public $numeroAnterior = 0;
     public function __construct()
     {
         require_once APPPATH . 'ThirdParty/ssp.class.php';
@@ -150,23 +150,21 @@ class Curso extends BaseController
                 "db" => "shortname",
                 "dt" => 2,
                 "formatter" => function ($d, $row) {
-                    $numero = random_int(0, 6);
-                    $this->numeroAnterior  = $numero;
                     $status = [
                         'success',
                         'danger',
-                        'success',
                         'warning',
                         'dark',
                         'primary',
                         'info',
                     ];
-                    if ($this->numeroAnterior == $numero){
-                        $numero = random_int(0, 6);
-                        $this->numeroAnterior  = $numero;
-                    }
+                    
 
-                    $estado = $status[$numero];
+                    $estado = $status[$this->numeroAnterior];
+                    $this->numeroAnterior++;
+                    if ($this->numeroAnterior == 6) {
+                        $this->numeroAnterior = 0;
+                    }
                     return '<span class="badge badge-' . $estado . '">' . $d . '</span>';
                 }
             ),
