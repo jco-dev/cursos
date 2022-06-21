@@ -41,7 +41,12 @@ $routes->post('/login', 'Auth::autentificar', ['as' => 'autentificar']);
 $routes->get('/salir', 'Auth::salir', ['as' => 'salir']);
 
 // cursos
+$routes->get('/cursos', 'Curso::index', ['as' => 'cursos']);
 $routes->get('curso-ajax-datatable', 'Curso::ajaxDatatable', ['as' => 'curso-ajax-datatable']);
+
+// configuracion
+$routes->get('/configuracion', 'Configuracion::index', ['as' => 'configuracion']);
+$routes->get('configuracion-ajax-datatable', 'Configuracion::ajaxDatatable', ['as' => 'configuracion-ajax-datatable']);
 
 
 /*

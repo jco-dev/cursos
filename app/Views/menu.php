@@ -7,7 +7,7 @@
         <div class="menu-submenu menu-submenu-classic menu-submenu-left">
             <ul class="menu-subnav">
                 <li class="menu-item" aria-haspopup="true">
-                    <a href="<?= base_url('curso') ?>" class="menu-link">
+                    <a href="<?= base_url(route_to('cursos')) ?>" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Layout\Layout-left-panel-2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="menu-item" aria-haspopup="true">
-                    <a href="index.html" class="menu-link">
+                    <a href="<?= base_url(route_to('configuracion')) ?>" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Settings-2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -240,7 +240,7 @@
                 </li>
                 <li class="menu-item" aria-haspopup="true">
                     <a href="index.html" class="menu-link">
-                       <span class="svg-icon menu-icon">
+                        <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24" />
@@ -255,7 +255,7 @@
                 </li>
                 <li class="menu-item" aria-haspopup="true">
                     <a href="index.html" class="menu-link">
-                       <span class="svg-icon menu-icon">
+                        <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24" />

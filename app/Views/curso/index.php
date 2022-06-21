@@ -70,7 +70,6 @@ Cursos
 
 <?= $this->section('js') ?>
 <script src="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.js') ?>"></script>
-<!-- <script src="<?= base_url('assets/js/curso/index.js') ?>"></script> -->
 <script>
    var DatatableCursos = function() {
 

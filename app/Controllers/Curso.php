@@ -79,10 +79,6 @@ class Curso extends BaseController
                 $id_configuracion = $this->configuracion_model->insert([
                     'id_course' => $value->id,
                     'id_tipo_certificado' => NULL,
-                    'fecha_inicio' => '2021-06-19',
-                    'fecha_fin' => '2021-06-19',
-                    'fecha_limite_inscripcion' => '2021-06-19',
-                    'fecha_certificacion' => '2021-06-19',
                     'informe' => 'NO',
                     'estado' => 'REGISTRADO'
                 ]);
@@ -93,11 +89,6 @@ class Curso extends BaseController
                     $this->publicacion_model->insert([
                         'id_configuracion' => $id_configuracion,
                         'nota_aprobacion' => 65,
-                        'carga_horaria' => 60,
-                        'descripcion' => 'NULL',
-                        'banner' => 'NULL',
-                        'celular_referencia' => '62332648',
-                        'inversion' => 100,
                         'estado' => 'REGISTRADO',
                     ]);
 
@@ -158,13 +149,11 @@ class Curso extends BaseController
                         'primary',
                         'info',
                     ];
-                    
 
                     $estado = $status[$this->numeroAnterior];
                     $this->numeroAnterior++;
-                    if ($this->numeroAnterior == 6) {
+                    if ($this->numeroAnterior == 6)
                         $this->numeroAnterior = 0;
-                    }
                     return '<span class="badge badge-' . $estado . '">' . $d . '</span>';
                 }
             ),

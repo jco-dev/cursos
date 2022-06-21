@@ -22,7 +22,7 @@ class CursoModel extends Model
     protected $createdField  = 'creado_el';
     protected $updatedField  = 'actualizado_el';
 
-    // Funciones 
+    // Funciones
     public function getAll()
     {
         $builder = $this->db->table($this->table);
