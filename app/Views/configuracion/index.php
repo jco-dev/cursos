@@ -58,7 +58,6 @@ Configuración de Cursos
 
 <?= $this->section('js') ?>
 <script src="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.js') ?>"></script>
-<script src="<?= base_url('assets/js/widgets/bootstrap-select.min.js') ?>"></script>
 <script>
     var DatatableConfiguracion = function() {
 
