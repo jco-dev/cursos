@@ -62,7 +62,7 @@ Configuración
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modal-configuracion-title"></h5>
-                <button type="button" id="modal-configuracion-close" class="close">
+                <button type="button" class="close modal-configuracion-close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
@@ -78,6 +78,7 @@ Configuración
 <script src="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.js') ?>"></script>
 <script>
     var banner_curso = [];
+    var imagen = [];
     var tableConfiguracion;
     var DatatableConfiguracion = function() {
 
@@ -124,7 +125,7 @@ Configuración
                     $("#banner_curso").dropzone({
                         url: "/configuracion/subirBannerCurso",
                         addRemoveLinks: true,
-                        acceptedFiles: "image/jpeg, image/png",
+                        acceptedFiles: "image/jpeg, image/png, image/jpg",
                         maxFilesize: 0.4,
                         maxFiles: 1,
                         init: function() {
@@ -137,6 +138,81 @@ Configuración
                                 var index = banner_curso.indexOf(file);
                                 banner_curso.splice(index, 1);
                                 // console.log(banner_curso);
+                            });
+                        },
+                    });
+                }).fail(function(xhr) {});
+            }).on('click', "#configuracion-certificado", function(e) {
+                let id = $(this).data('id');
+                let curso = $(this).data('curso');
+                let corto = $(this).data('corto');
+                $.ajax({
+                    url: "<?= base_url(route_to('edit-frm-certificacion')) ?>",
+                    type: 'GET',
+                    data: {
+                        id
+                    }
+                }).done(function(data) {
+                    console.log(data)
+                    $("#modal-configuracion-body").html(data.vista);
+                    // Edit
+                    $("#id_configuracion").val(id);
+                    $("#shortname").val(corto);
+                    $("#imagen").val(data.data[0].imagen);
+                    $("#posx_nombre_participante").val(data.data[0].posx_nombre_participante);
+                    $("#posy_nombre_participante").val(data.data[0].posy_nombre_participante);
+                    $("#posx_nombre_curso").val(data.data[0].posx_nombre_curso);
+                    $("#posy_nombre_curso").val(data.data[0].posy_nombre_curso);
+                    $("#posx_qr").val(data.data[0].posx_qr);
+                    $("#posy_qr").val(data.data[0].posy_qr);
+                    $("#posx_tipo_participacion").val(data.data[0].posx_tipo_participacion);
+                    $("#posy_tipo_participacion").val(data.data[0].posy_tipo_participacion);
+                    $("#posx_bloque_texto").val(data.data[0].posx_bloque_texto);
+                    $("#posy_bloque_texto").val(data.data[0].posy_bloque_texto);
+                    $("#tamanio_texto_participante").val(data.data[0].tamanio_texto_participante);
+                    $("#tamanio_texto_curso").val(data.data[0].tamanio_texto_curso);
+                    $("#tamanio_texto_bloque").val(data.data[0].tamanio_texto_bloque);
+                    $("#orientacion").val(data.data[0].orientacion).trigger('change');
+                    $("#alto_texto_nombre_curso").val(data.data[0].alto_texto_nombre_curso);
+
+                    if (data.data[0].color_nombre_participante != null || data.data[0].color_nombre_participante != "") {
+                        $("#color_nombre_participante").val(
+                            data.data[0].color_nombre_participante
+                        );
+                    } else {
+                        $("#color_nombre_participante").val("#000000");
+                    }
+
+                    if (data.data[0].color_nombre_curso != null || data.data[0].color_nombre_curso != "") {
+                        $("#color_nombre_curso").val(
+                            data.data[0].color_nombre_curso
+                        );
+                    } else {
+                        $("#color_nombre_curso").val("#000000");
+                    }
+
+                    $("#fecha_inicio").val(data.data[0].fecha_inicio);
+                    $("#fecha_fin").val(data.data[0].fecha_fin);
+                    $("#fecha_certificacion").val(data.data[0].fecha_certificacion);
+
+                    parametrosModal('#modal-configuracion', "Certificación: " + curso + " - " + corto, 'modal-xl', false, 'static');
+
+                    $("#imagen").dropzone({
+                        url: "/configuracion/subirBannerCurso",
+                        addRemoveLinks: true,
+                        acceptedFiles: "image/jpeg, image/png, image/jpg",
+                        maxFilesize: 1.5,
+                        maxFiles: 1,
+                        init: function() {
+                            this.on("addedfile", function(file) {
+                                imagen.push(file);
+                                console.log(imagen);
+                            });
+
+                            this.on("removedfile", function(file) {
+                                var index = imagen.indexOf(file);
+                                imagen.splice(index, 1);
+                                console.log(imagen);
                             });
                         },
                     });
@@ -165,7 +241,7 @@ Configuración
         DatatableConfiguracion.init();
 
         // reset form
-        $("#kt_body").on("click", "#cancelFrmPublicacion, #modal-configuracion-close", function(e) {
+        $("#kt_body").on("click", ".cancelFrmConfiguracion, .modal-configuracion-close", function(e) {
             e.preventDefault();
             Swal.fire({
                 title: "¿Estás seguro de cancelar la edición?",
@@ -174,7 +250,6 @@ Configuración
                 confirmButtonText: "Si, Cancelar!"
             }).then(function(result) {
                 if (result.value) {
-                    $("#frm-publicacion")[0].reset();
                     $("#modal-configuracion-body").children().empty();
                     $("#modal-configuracion").modal('hide');
                 }
@@ -190,6 +265,47 @@ Configuración
 
             $.ajax({
                 url: "<?= base_url(route_to('guardar-publicacion')); ?>",
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "JSON",
+            }).done(function(data) {
+                if (typeof data.success != 'undefined') {
+                    tableConfiguracion.DataTable().ajax.reload(null, false);
+                    $("#modal-configuracion").modal('hide');
+                    Swal.fire({
+                        icon: "success",
+                        title: data.success,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                }
+
+                if (typeof data.error != 'undefined') {
+                    $("#modal-configuracion").modal('hide');
+                    Swal.fire({
+                        icon: "error",
+                        title: data.error,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }
+            });
+
+        });
+
+        // guardar certificación
+        $("#kt_body").on("submit", "#frm-certificacion", function(e) {
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            if (imagen.length == 1 && imagen[0].status == "success")
+                formData.append("imagen", imagen[0].dataURL);
+
+            $.ajax({
+                url: "<?= base_url(route_to('guardar-certificacion')); ?>",
                 type: 'POST',
                 data: formData,
                 cache: false,

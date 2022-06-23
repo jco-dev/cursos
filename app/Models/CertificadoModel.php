@@ -43,4 +43,13 @@ class CertificadoModel extends Model
     protected $createdField  = 'creado_el';
     protected $updatedField  = 'actualizado_el';
 
+    // Functions
+    public function editCertificacion($id) {
+        $builder = $this->db->table('vista_listado_certificacion');
+        $builder->select('*');
+        $builder->where('id_configuracion', $id);
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
 }

@@ -91,7 +91,7 @@
                 <i class="fa fa-save"></i>
                 Guardar
             </button>
-            <button type="button" id="cancelFrmPublicacion" class="btn btn-light-primary">Cancelar</button>
+            <button type="button" class="btn btn-light-primary cancelFrmConfiguracion">Cancelar</button>
         </div>
     </div>
 </form>

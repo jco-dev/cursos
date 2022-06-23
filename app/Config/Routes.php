@@ -49,6 +49,8 @@ $routes->get('/configuracion', 'Configuracion::index', ['as' => 'configuracion']
 $routes->get('configuracion-ajax-datatable', 'Configuracion::ajaxDatatable', ['as' => 'configuracion-ajax-datatable']);
 $routes->get('frm-publicacion', 'Configuracion::editFrmPublicacion', ['as' => 'edit-frm-publicacion']);
 $routes->post('guardar-publicacion', 'Configuracion::guardarPublicacion', ['as' => 'guardar-publicacion']);
+$routes->get('frm-certificacion', 'Configuracion::editFrmCertificacion', ['as' => 'edit-frm-certificacion']);
+$routes->post('guardar-certificacion', 'Configuracion::guardarCertificacion', ['as' => 'guardar-certificacion']);
 
 
 /*

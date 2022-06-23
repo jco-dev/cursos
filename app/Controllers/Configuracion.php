@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\CertificadoModel;
 use App\Models\ConfiguracionModel;
 use App\Models\PublicacionModel;
 
@@ -12,10 +13,12 @@ class Configuracion extends BaseController
     protected $db;
     public $numeroAnterior = 0;
     public $publicacion_model;
+    public $certificacion_model;
     public function __construct()
     {
         $this->model = new ConfiguracionModel();
         $this->publicacion_model = new PublicacionModel();
+        $this->certificacion_model = new CertificadoModel();
         require_once APPPATH . 'ThirdParty/ssp.class.php';
         $this->db = db_connect();
     }
@@ -207,7 +210,7 @@ class Configuracion extends BaseController
                             </svg>
                         </span>
                     </button>
-                    <button id="configuracion-certificado" class="btn btn-sm btn-light-info btn-clean btn-icon mr-2" title="Editar la configuración del certificado">
+                    <button id="configuracion-certificado" data-id="' . $id . '" data-curso="' . $row["fullname"] . '" data-corto="' . $row["shortname"] . '" class="btn btn-sm btn-light-info btn-clean btn-icon mr-2" title="Editar la configuración del certificado">
                         <span class="svg-icon svg-icon-md">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -347,5 +350,74 @@ class Configuracion extends BaseController
                 }
             }
         }
+    }
+
+    // Certificación //
+    public function editFrmCertificacion()
+    {
+        $id_configuracion = $this->request->getGet('id');
+        $data = $this->certificacion_model->editCertificacion($id_configuracion);
+        return $this->response->setJSON(['vista' => view('configuracion/partials/_frmCertificacion'), 'data' => $data]);
+    }
+
+    public function guardarCertificacion()
+    {
+        if ($this->request->isAJAX()) {
+            // Subir Banner Curso //
+            $ruta_imagen = NULL;
+            if ($this->request->getPost('imagen')) {
+                if (preg_match("/^data:image\/(\w+);base64,/", $this->request->getPost('imagen'), $formato)) {
+                    $imagen = substr($this->request->getPost('imagen'), strpos($this->request->getPost('imagen'), ',') + 1);
+                    $nombre = trim($this->request->getPost('shortname')) . "_" . date('Y_m_d_H_i_s') . '.' . strtolower($formato[1]);
+                    $ruta_imagen = 'assets/img/fondo_certificado/' . $nombre;
+                    file_put_contents(FCPATH . 'assets/img/fondo_certificado/' . $nombre, base64_decode($imagen));
+                }
+            }
+
+            $id_configuracion       = $this->request->getPost('id_configuracion');
+            $data_certificacion = [
+                'imagen'                     => $ruta_imagen,
+                'posx_nombre_participante'   => $this->request->getPost('posx_nombre_participante'),
+                'posy_nombre_participante'   => $this->request->getPost('posy_nombre_participante'),
+                'posx_nombre_curso'          => $this->request->getPost('posx_nombre_curso'),
+                'posy_nombre_curso'          => $this->request->getPost('posy_nombre_curso'),
+                'posx_qr'                    => $this->request->getPost('posx_qr'),
+                'posy_qr'                    => $this->request->getPost('posy_qr'),
+                'posx_tipo_participacion'    => $this->request->getPost('posx_tipo_participacion'),
+                'posy_tipo_participacion'    => $this->request->getPost('posy_tipo_participacion'),
+                'posx_bloque_texto'          => $this->request->getPost('posx_bloque_texto'),
+                'posy_bloque_texto'          => $this->request->getPost('posy_bloque_texto'),
+                'tamanio_texto_participante' => $this->request->getPost('tamanio_texto_participante'),
+                'tamanio_texto_curso'        => $this->request->getPost('tamanio_texto_curso'),
+                'tamanio_texto_bloque'       => $this->request->getPost('tamanio_texto_bloque'),
+                'orientacion'                => $this->request->getPost('orientacion'),
+                'color_nombre_participante'  => $this->request->getPost('color_nombre_participante'),
+                'color_nombre_curso'         => $this->request->getPost('color_nombre_curso'),
+                'alto_texto_nombre_curso'    => $this->request->getPost('alto_texto_nombre_curso'),
+            ];
+
+            // Configuración
+            $data_config = [
+                'fecha_inicio'        => $this->request->getPost('fecha_inicio'),
+                'fecha_fin'           => $this->request->getPost('fecha_fin'),
+                'fecha_certificacion' => $this->request->getPost('fecha_certificacion')
+            ];
+
+            if ($this->model->update($id_configuracion, $data_config) && $this->certificacion_model->update($id_configuracion, $data_certificacion)) {
+                return $this->response->setJSON(
+                    [
+                        'success' => 'Configuración realizado correctamente para la certificación'
+                    ]
+                );
+            } else {
+                return $this->response->setJSON(
+                    [
+                        'error' => 'Error al realizar la configuración para la certificación'
+                    ]
+                );
+            }
+
+        }
+
     }
 }
