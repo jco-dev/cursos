@@ -103,6 +103,7 @@
     <script src="<?= base_url('assets/plugins/global/plugins.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/plugins/custom/prismjs/prismjs.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/js/admin/scripts.bundle.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/cursos.js') ?>"></script>
     <?= $this->renderSection('js') ?>
 </body>
 

@@ -20,6 +20,7 @@ class PublicacionModel extends Model
         'carga_horaria',
         'descripcion',
         'banner',
+        'pdf',
         'pago_qr',
         'pago_qr_descuento',
         'celular_referencia',
@@ -36,4 +37,12 @@ class PublicacionModel extends Model
     protected $createdField  = 'creado_el';
     protected $updatedField  = 'actualizado_el';
 
+    // Functions
+    public function editPublicacion($id) {
+        $builder = $this->db->table('vista_listado_configuracion');
+        $builder->select('*');
+        $builder->where('id_configuracion', $id);
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
 }

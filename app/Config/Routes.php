@@ -47,6 +47,8 @@ $routes->get('curso-ajax-datatable', 'Curso::ajaxDatatable', ['as' => 'curso-aja
 // configuracion
 $routes->get('/configuracion', 'Configuracion::index', ['as' => 'configuracion']);
 $routes->get('configuracion-ajax-datatable', 'Configuracion::ajaxDatatable', ['as' => 'configuracion-ajax-datatable']);
+$routes->get('frm-publicacion', 'Configuracion::editFrmPublicacion', ['as' => 'edit-frm-publicacion']);
+$routes->post('guardar-publicacion', 'Configuracion::guardarPublicacion', ['as' => 'guardar-publicacion']);
 
 
 /*
