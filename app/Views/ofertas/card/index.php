@@ -1,15 +1,15 @@
 <div class="col-sm-12 col-md-6 col-lg-4">
     <div class="card shadow-lg">
-        <img class="img-fluid" style="height: 165px; border-radius: 6px 6px 0px 0px" src="<?= base_url('assets/media/banner/3.jpeg') ?>" alt="Banner del curso" />
-        <div class="stack-top" style="--c: red">- 25%</div>
+        <img class="img-fluid" style="height: 165px; border-radius: 6px 6px 0px 0px" src="<?= base_url($curso->banner) ?>" alt="Banner del curso" />
+        <?php if (strtotime(date('d-m-Y')) >= strtotime($curso->fecha_inicio_descuento) && strtotime(date('d-m-Y')) <= strtotime($curso->fecha_fin_descuento) && $curso->descuento > 0) { ?>
+            <div class="stack-top" style="--c: red">- <?= $curso->descuento ?>%</div>
+        <?php } ?>
         <div class="card-body p-0">
             <div class="d-flex flex-column flex-center"></div>
             <div class="p-4">
                 <div class="expander">
                     <p style="text-align: justify">
-                        CON ESTE CURSO TE CAPACITARÁS EN EL MANEJO DE INTERNET
-                        DESDE CERO, CONFIGURACIÓN BÁSICA DE REDES, OPTIMIZACIÓN
-                        DE VELOCIDAD, CONTROL DE USO Y BLOQUEO DE CONSUMO.
+                        <?= $curso->descripcion ?>
                     </p>
                 </div>
                 <div class="separator separator-solid separator-border-2"></div>
@@ -34,7 +34,7 @@
                                 <strong>Inicio:</strong>
                             </p>
                         </div>
-                        <span>12/12/2022</span>
+                        <span><?= $curso->fecha_inicio ?></span>
                     </div>
                     <!--end:: Fecha Inicio -->
                     <!--begin::Horarios -->
@@ -80,7 +80,7 @@
                                 <strong>Carga horaria:</strong>
                             </p>
                         </div>
-                        <span>180 horas académicas</span>
+                        <span><?= $curso->carga_horaria ?> horas académicas</span>
                     </div>
                     <!--end::Carga Horaria-->
                     <!--begin::Inversión -->
@@ -104,10 +104,13 @@
                             </p>
                         </div>
                         <span>
-                            <del class="text-danger">120 Bs.</del>
-                            &nbsp; <strong>100 Bs.</strong>
+                            <?php if (strtotime(date('d-m-Y')) >= strtotime($curso->fecha_inicio_descuento) && strtotime(date('d-m-Y')) <= strtotime($curso->fecha_fin_descuento) && $curso->descuento > 0) { ?>
+                                <del class="text-danger"><?= $curso->inversion ?> Bs.</del>
+                                &nbsp; <strong><?= intval(($curso->inversion) - ($curso->inversion * $curso->descuento / 100)) ?> Bs.</strong>
+                            <?php } else { ?>
+                                <strong><?= $curso->inversion ?> Bs.</strong>
+                            <?php } ?>
                         </span>
-                        <!-- <span class="font-size-md label label-light-success label-inline font-weight-normal"><span class="font-weight-bold">Bs. 100</span> </span> -->
                     </div>
                     <!--end::Inversión-->
                     <!--begin::Celular -->
@@ -129,36 +132,37 @@
                                 <strong>Celular Referencia:</strong>
                             </p>
                         </div>
-                        <a href="https://api.whatsapp.com/send/?phone=59162332648&text=M%C3%A1s%20informaci%C3%B3n%20sobre%20el%20curso%20de:%20*%20-%20UPEA*" class="font-weight-bold text-dark min-w-45px">70648629-47854587</a>
+                        <a href="https://api.whatsapp.com/send/?phone=59162332648&text=M%C3%A1s%20informaci%C3%B3n%20sobre%20el%20curso%20de:%20*%20-%20UPEA*" class="font-weight-bold text-dark min-w-45px"><?= $curso->celular_referencia ?></a>
                     </div>
                     <!--end::Celular-->
                     <!--begin::Descuento-->
-
-                    <div class="d-flex align-items-center pb-2">
-                        <div class="symbol symbol-30px symbol-light">
-                            <span class="symbol-label">
-                                <span class="svg-icon svg-icon-1x svg-icon-dark-50">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24" />
-                                            <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z" fill="#000000" opacity="0.3" transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) " />
-                                            <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z M11.5,14 C12.6045695,14 13.5,13.1045695 13.5,12 C13.5,10.8954305 12.6045695,10 11.5,10 C10.3954305,10 9.5,10.8954305 9.5,12 C9.5,13.1045695 10.3954305,14 11.5,14 Z" fill="#000000" />
-                                        </g>
-                                    </svg>
+                    <?php if (strtotime(date('d-m-Y')) >= strtotime($curso->fecha_inicio_descuento) && strtotime(date('d-m-Y')) <= strtotime($curso->fecha_fin_descuento) && $curso->descuento > 0) { ?>
+                        <div class="d-flex align-items-center pb-2">
+                            <div class="symbol symbol-30px symbol-light">
+                                <span class="symbol-label">
+                                    <span class="svg-icon svg-icon-1x svg-icon-dark-50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z" fill="#000000" opacity="0.3" transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) " />
+                                                <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z M11.5,14 C12.6045695,14 13.5,13.1045695 13.5,12 C13.5,10.8954305 12.6045695,10 11.5,10 C10.3954305,10 9.5,10.8954305 9.5,12 C9.5,13.1045695 10.3954305,14 11.5,14 Z" fill="#000000" />
+                                            </g>
+                                        </svg>
+                                    </span>
                                 </span>
+                            </div>
+                            <div class="d-flex flex-column flex-grow-1">
+                                <p class="texto-gris-900 p-2 m-0">
+                                    <strong>Descuento:</strong>
+                                </p>
+                            </div>
+                            <span class="font-weight-bold min-w-45px">
+                                <span class="badge badge-warning"><?= $curso->descuento ?>%</span>
+                                <span> hasta </span>
+                                <span class="badge badge-warning"><?= $curso->fecha_fin_descuento ?></span>
                             </span>
                         </div>
-                        <div class="d-flex flex-column flex-grow-1">
-                            <p class="texto-gris-900 p-2 m-0">
-                                <strong>Descuento:</strong>
-                            </p>
-                        </div>
-                        <span class="font-weight-bold min-w-45px">
-                            <span class="badge badge-warning">20%</span>
-                            <span> hasta </span>
-                            <span class="badge badge-warning">12/12/2022</span>
-                        </span>
-                    </div>
+                    <?php } ?>
                     <!--end::Descuento-->
                     <!--begin::Límite de inscripción-->
                     <div class="d-flex align-items-center pb-2">
@@ -180,7 +184,7 @@
                                 <strong>Límite de inscripción:</strong>
                             </p>
                         </div>
-                        <span class="text-danger">12/12/2021</span>
+                        <span class="text-danger"><?= $curso->fecha_limite_inscripcion ?></span>
                     </div>
                     <!--end::Límite de inscripción-->
                 </div>

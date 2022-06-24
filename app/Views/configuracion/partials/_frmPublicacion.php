@@ -82,7 +82,7 @@
         </div>
         <div class="col-lg-4">
             <label for="pdf">Infografía del curso<span class="text-danger">(PDF)</span></label>
-            <input type="file" class="form-control" name="pdf" id="pdf" accept=".pdf" required />
+            <input type="file" class="form-control" name="pdf" id="pdf" accept=".pdf" />
         </div>
     </div>
 

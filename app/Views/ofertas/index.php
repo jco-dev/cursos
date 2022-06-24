@@ -54,13 +54,13 @@
                             </div>
                             <!--Toolbar-->
                             <div class="flex-equal text-end ms-1">
-                                <a href="<?= base_url(route_to('login'))?>" class="btn btn-sm btn-success">Login</a>
+                                <a href="<?= base_url(route_to('login')) ?>" class="btn btn-sm btn-success">Login</a>
                             </div>
                             <!--Toolbar-->
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="d-flex flex-column flex-center w-100 min-h-350px min-h-lg-500px px-9">
                     <div class="text-center mb-5 mb-lg-10 py-10 py-lg-20">
                         <h1 class="text-white lh-base fw-bolder fs-2x fs-lg-3x mb-15">
@@ -71,7 +71,7 @@
                         </h1>
                         <a href="/" class="btn btn-primary" id="btn-cursos">Cursos Posgrado</a>
                     </div>
-                    <?= view('ofertas/slider')?>
+                    <?= view('ofertas/slider') ?>
                 </div>
             </div>
             <div class="landing-curve landing-dark-color mb-10 mb-lg-20">
@@ -96,6 +96,7 @@
 
                 <div class="row mx-auto w-100 gy-10 mb-md-20">
                     <!-- aquí va la impresión de cards de cursos -->
+                    <?= $curso ?>
                 </div>
 
                 <div class="text-center mb-5 mt-15">
@@ -254,14 +255,14 @@
             </div>
         </div>
         <!-- Cupon -->
-        <?= view('ofertas/footer')?>
-        <?= view('ofertas/scrolltop')?>
+        <?= view('ofertas/footer') ?>
+        <?= view('ofertas/scrolltop') ?>
     </div>
 
     <script src="<?= base_url('assets/js/oferta/plugins.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/js/oferta/scripts.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/js/expander/jquery.expander.min.js') ?>"></script>
-    <script src="<?= base_url('assets/js/expander/custom.js')?>"></script>
+    <script src="<?= base_url('assets/js/expander/custom.js') ?>"></script>
     <script src="<?= base_url('assets/js/video/index.min.js') ?>"></script>
 </body>
 
