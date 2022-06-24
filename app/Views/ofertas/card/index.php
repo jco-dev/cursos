@@ -191,6 +191,7 @@
                 <!-- Acciones -->
                 <div class="d-flex justify-content-around pt-3">
                     <a href="" target="_blank" class="btn btn-primary btn-shadow-hover btn-sm">
+                    <i class="fa fa-file"></i>
                         Contenido
                     </a>
                     <a class="btn btn-primary btn-shadow-hover font-size-sm btn-sm" href="" data-id="" target="_blank">

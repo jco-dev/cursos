@@ -31,16 +31,16 @@ Configuración
                             <th>#</th>
                             <th>Curso</th>
                             <th>Nombre corto</th>
-                            <th>Imagen</th>
+                            <th>Certificado</th>
                             <th>Inicio</th>
                             <th>Fin</th>
                             <th>Límite</th>
                             <th>Certificación</th>
                             <th>nota(A)</th>
                             <th>carga horaria</th>
-                            <th>descripción</th>
                             <th>banner</th>
                             <th>celular</th>
+                            <th>descripción</th>
                             <th>inversión</th>
                             <th>descuento</th>
                             <th>Inicio descuento</th>

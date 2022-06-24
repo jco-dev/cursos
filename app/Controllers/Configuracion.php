@@ -142,15 +142,8 @@ class Configuracion extends BaseController
                 }
             ),
             array(
-                "db" => "descripcion",
-                "dt" => 10,
-                "formatter" => function ($d, $row) {
-                    return '<small>' . $d . '</small>';
-                }
-            ),
-            array(
                 "db" => "banner",
-                "dt" => 11,
+                "dt" => 10,
                 "formatter" => function ($d, $row) {
                     if ($d == "" || $d == NULL)
                         return '<img class="img-thumbnail" width="120" heigth="80" src="' . base_url('assets/media/default/default.jpg') . '" alt="Banner del curso" />';
@@ -160,7 +153,14 @@ class Configuracion extends BaseController
             ),
             array(
                 "db" => "celular_referencia",
+                "dt" => 11,
+            ),
+            array(
+                "db" => "descripcion",
                 "dt" => 12,
+                "formatter" => function ($d, $row) {
+                    return '<small>' . $d . '</small>';
+                }
             ),
             array(
                 "db" => "inversion",
