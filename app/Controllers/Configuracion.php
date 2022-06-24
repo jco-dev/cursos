@@ -291,26 +291,27 @@ class Configuracion extends BaseController
                     $nombre = trim($this->request->getPost('shortname')) . "_" . date('Y_m_d_H_i_s') . '.' . strtolower($formato[1]);
                     $ruta_banner = 'assets/img/banner/' . $nombre;
                     file_put_contents(FCPATH . 'assets/img/banner/' . $nombre, base64_decode($imagen));
+
+                    $this->publicacion_model->update(
+                        $this->request->getPost('id_configuracion'),
+                        ['banner' => $ruta_banner]
+                    );
                 }
             }
             // Subir Pago QR //
-            $ruta_pago_qr = $this->uploadFiles($_FILES['pago_qr'], ['png', 'jpg', 'jpeg'], 'assets/img/pago_qr/', trim($this->request->getPost('shortname')));
+            $this->uploadFiles($_FILES['pago_qr'], ['png', 'jpg', 'jpeg'], 'assets/img/pago_qr/', trim($this->request->getPost('shortname')), 'publicacion_model', $this->request->getPost('id_configuracion'), 'pago_qr');
 
             // Subir Pago QR descuento //
-            $ruta_pago_qr_descuento = $this->uploadFiles($_FILES['pago_qr_descuento'], ['png', 'jpg', 'jpeg'], 'assets/img/pago_qr/', trim($this->request->getPost('shortname')) . "_DESC");
+            $this->uploadFiles($_FILES['pago_qr_descuento'], ['png', 'jpg', 'jpeg'], 'assets/img/pago_qr/', trim($this->request->getPost('shortname')) . "_DESC", 'publicacion_model', $this->request->getPost('id_configuracion'), 'pago_qr_descuento');
 
             // Subir PDF //
-            $ruta_pdf = $this->uploadFiles($_FILES['pdf'], ['pdf', 'doc', 'docx'], 'assets/media/pdf/', trim($this->request->getPost('shortname')));
+            $this->uploadFiles($_FILES['pdf'], ['pdf', 'doc', 'docx'], 'assets/media/pdf/', trim($this->request->getPost('shortname')), 'publicacion_model', $this->request->getPost('id_configuracion'), 'pdf');
 
             // Publicación //
             $id_configuracion       = $this->request->getPost('id_configuracion');
             $data_publicacion = [
                 'nota_aprobacion'        => $this->request->getPost('nota_aprobacion'),
                 'carga_horaria'          => $this->request->getPost('carga_horaria'),
-                'banner'                 => $ruta_banner,
-                'pdf'                    => $ruta_pdf,
-                'pago_qr'                => $ruta_pago_qr,
-                'pago_qr_descuento'      => $ruta_pago_qr_descuento,
                 'celular_referencia'     => trim($this->request->getPost('celular_referencia')),
                 'inversion'              => $this->request->getPost('inversion'),
                 'descripcion'            => mb_convert_case(preg_replace("/\s+/", " ", trim($this->request->getPost('descripcion'))), MB_CASE_UPPER),
@@ -342,7 +343,7 @@ class Configuracion extends BaseController
         }
     }
 
-    public function uploadFiles($archivo, $permitidos, $ruta, $shortname)
+    public function uploadFiles($archivo, $permitidos, $ruta, $shortname, $model, $id_configuracion, $campo)
     {
         if (isset($archivo) && $archivo['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $archivo['tmp_name'];
@@ -354,10 +355,13 @@ class Configuracion extends BaseController
             if (in_array($extensionArchivo, $permitidos)) {
                 $path = $ruta . $nuevoNombreArchivo;
                 if (move_uploaded_file($fileTmpPath, $path)) {
-                    return $path;
-                } else {
-                    return NULL;
+                    $this->$model->update(
+                        $id_configuracion,
+                        [$campo => $path]
+                    );
+                    return true;
                 }
+                return false;
             }
         }
     }
