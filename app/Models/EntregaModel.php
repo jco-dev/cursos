@@ -27,5 +27,4 @@ class EntregaModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'creado_el';
     protected $updatedField  = 'actualizado_el';
-
 }

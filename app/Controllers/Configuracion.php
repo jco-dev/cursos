@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\CertificadoModel;
 use App\Models\ConfiguracionModel;
+use App\Models\EntregaModel;
+use App\Models\PersonalizacionModel;
 use App\Models\PublicacionModel;
 
 class Configuracion extends BaseController
@@ -14,11 +16,15 @@ class Configuracion extends BaseController
     public $numeroAnterior = 0;
     public $publicacion_model;
     public $certificacion_model;
+    public $personalizacion_model;
+    public $entrega_model;
     public function __construct()
     {
         $this->model = new ConfiguracionModel();
         $this->publicacion_model = new PublicacionModel();
         $this->certificacion_model = new CertificadoModel();
+        $this->personalizacion_model = new PersonalizacionModel();
+        $this->entrega_model = new EntregaModel();
         require_once APPPATH . 'ThirdParty/ssp.class.php';
         $this->db = db_connect();
     }
@@ -222,7 +228,7 @@ class Configuracion extends BaseController
                             </svg>
                         </span>
                     </button>
-                    <button id="configuracion-personalizacion" class="btn btn-sm btn-light-info btn-clean btn-icon mr-2" title="Personalización del certificado">
+                    <button id="configuracion-personalizacion" data-id="' . $id . '" data-curso="' . $row["fullname"] . '" data-corto="' . $row["shortname"] . '" class="btn btn-sm btn-light-info btn-clean btn-icon mr-2" title="Personalización del certificado">
                         <span class="svg-icon svg-icon-md">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -233,7 +239,7 @@ class Configuracion extends BaseController
                             </svg>
                         </span>
                     </button>
-                    <button id="configuracion-entrega" class="btn btn-sm btn-light-success btn-clean btn-icon mr-2" title="Editar para la entrega del certificado">
+                    <button id="configuracion-entrega" data-id="' . $id . '" data-curso="' . $row["fullname"] . '" data-corto="' . $row["shortname"] . '" class="btn btn-sm btn-light-success btn-clean btn-icon mr-2" title="Editar para la entrega del certificado">
                         <span class="svg-icon svg-icon-md">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -244,7 +250,7 @@ class Configuracion extends BaseController
                             </svg>
                         </span>
                     </button>
-                    <button id="configuracion-finalizar" class="btn btn-sm btn-danger btn-clean btn-icon" title="Finalizar la configuración del certificado">
+                    <button id="configuracion-finalizar" data-id="' . $id . '" data-curso="' . $row["fullname"] . '" data-corto="' . $row["shortname"] . '" class="btn btn-sm btn-danger btn-clean btn-icon" title="Finalizar la configuración del certificado">
                         <span class="svg-icon svg-icon-md">
                             FIN
                         </span>
@@ -416,8 +422,106 @@ class Configuracion extends BaseController
                     ]
                 );
             }
-
         }
+    }
 
+    public function editFrmPersonalizacion()
+    {
+        $id_configuracion = $this->request->getGet('id');
+        $data = $this->personalizacion_model->where(['id_configuracion' => $id_configuracion])->findAll();
+        return $this->response->setJSON(['vista' => view('configuracion/partials/_frmPersonalizacion'), 'data' => $data]);
+    }
+
+    public function guardarPersonalizacion()
+    {
+        if ($this->request->isAJAX()) {
+            // Subir Imagen personalizado del curso //
+            $ruta_imagen = NULL;
+            if ($this->request->getPost('imagen_personalizado')) {
+                if (preg_match("/^data:image\/(\w+);base64,/", $this->request->getPost('imagen_personalizado'), $formato)) {
+                    $imagen = substr($this->request->getPost('imagen_personalizado'), strpos($this->request->getPost('imagen_personalizado'), ',') + 1);
+                    $nombre = trim($this->request->getPost('shortname')) . "_" . date('Y_m_d_H_i_s') . '.' . strtolower($formato[1]);
+                    $ruta_imagen = 'assets/img/imagen_personalizado/' . $nombre;
+                    file_put_contents(FCPATH . 'assets/img/imagen_personalizado/' . $nombre, base64_decode($imagen));
+                }
+            }
+
+            $id_configuracion       = $this->request->getPost('id_configuracion');
+            $data_personalizacion = [
+                'imagen_personalizado'       => $ruta_imagen,
+                'posx_imagen_personalizado'  => $this->request->getPost('posx_imagen_personalizado'),
+                'posy_imagen_personalizado'  => $this->request->getPost('posy_imagen_personalizado'),
+                'imprimir_subtitulo'         => $this->request->getPost('imprimir_subtitulo'),
+                'subtitulo'                  => $this->request->getPost('subtitulo')
+            ];
+
+            if ($this->personalizacion_model->update($id_configuracion, $data_personalizacion)) {
+                return $this->response->setJSON(
+                    [
+                        'success' => 'Configuración realizado correctamente'
+                    ]
+                );
+            } else {
+                return $this->response->setJSON(
+                    [
+                        'error' => 'Error al realizar la configuración'
+                    ]
+                );
+            }
+        }
+    }
+
+    public function editFrmEntrega()
+    {
+        $id_configuracion = $this->request->getGet('id');
+        $data = $this->entrega_model->where(['id_configuracion' => $id_configuracion])->findAll();
+        return $this->response->setJSON(['vista' => view('configuracion/partials/_frmEntrega'), 'data' => $data]);
+    }
+
+    public function guardarEntrega()
+    {
+        if ($this->request->isAJAX()) {
+            $id_configuracion       = $this->request->getPost('id_configuracion');
+            $data_entrega = [
+                'certificado_disponible'    => $this->request->getPost('certificado_disponible'),
+                'inicio'                    => $this->request->getPost('inicio'),
+                'fin'                       => $this->request->getPost('fin'),
+            ];
+
+            if ($this->entrega_model->update($id_configuracion, $data_entrega)) {
+                return $this->response->setJSON(
+                    [
+                        'success' => 'Configuración realizado correctamente para la entrega'
+                    ]
+                );
+            } else {
+                return $this->response->setJSON(
+                    [
+                        'error' => 'Error al realizar la configuración para la entrega'
+                    ]
+                );
+            }
+        }
+    }
+
+    public function terminarConfiguracion()
+    {
+        $id_configuracion = $this->request->getPost('id');
+        $data_config = [
+            'estado' => "TERMINADO",
+        ];
+        if ($this->model->update($id_configuracion, $data_config)) {
+            return $this->response->setJSON(
+                [
+                    'success' => 'La configuración del curso ha terminado correctamente'
+                ]
+            );
+        } else {
+            return $this->response->setJSON(
+                [
+                    'error' => 'Error al terminar la configuración del curso'
+                ]
+            );
+        }
     }
 }

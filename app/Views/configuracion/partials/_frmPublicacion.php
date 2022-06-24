@@ -9,6 +9,7 @@
                     Arrastrar o dar click para subir el banner del curso.
                 </div>
             </div>
+            <span class="form-text text-muted">La imagen debe pesar menos de 400KB</span>
         </div>
     </div>
 

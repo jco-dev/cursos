@@ -9,6 +9,7 @@
                     Arrastrar o dar click para subir la imagen del fondo del certificado
                 </div>
             </div>
+            <span class="form-text text-muted">La imagen debe pesar menos de 1.5MB</span>
         </div>
     </div>
 

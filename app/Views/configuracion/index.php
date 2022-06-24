@@ -79,6 +79,7 @@ Configuración
 <script>
     var banner_curso = [];
     var imagen = [];
+    var imagen_personalizado = [];
     var tableConfiguracion;
     var DatatableConfiguracion = function() {
 
@@ -153,7 +154,6 @@ Configuración
                         id
                     }
                 }).done(function(data) {
-                    console.log(data)
                     $("#modal-configuracion-body").html(data.vista);
                     // Edit
                     $("#id_configuracion").val(id);
@@ -206,17 +206,114 @@ Configuración
                         init: function() {
                             this.on("addedfile", function(file) {
                                 imagen.push(file);
-                                console.log(imagen);
                             });
 
                             this.on("removedfile", function(file) {
                                 var index = imagen.indexOf(file);
                                 imagen.splice(index, 1);
-                                console.log(imagen);
                             });
                         },
                     });
                 }).fail(function(xhr) {});
+            }).on('click', "#configuracion-personalizacion", function(e) {
+                let id = $(this).data('id');
+                let curso = $(this).data('curso');
+                let corto = $(this).data('corto');
+                $.ajax({
+                    url: "<?= base_url(route_to('edit-frm-personalizacion')) ?>",
+                    type: 'GET',
+                    data: {
+                        id
+                    }
+                }).done(function(data) {
+                    $("#modal-configuracion-body").html(data.vista);
+                    // Edit
+                    $("#id_configuracion").val(id);
+                    $("#shortname").val(corto);
+                    $("#imagen_personalizado").val(data.data[0].imagen_personalizado);
+                    $("#posx_imagen_personalizado").val(data.data[0].posx_imagen_personalizado);
+                    $("#posy_imagen_personalizado").val(data.data[0].posy_imagen_personalizado);
+                    $("#imprimir_subtitulo").val(data.data[0].imprimir_subtitulo).trigger('change');
+                    $("#subtitulo").val(data.data[0].subtitulo);
+
+                    parametrosModal('#modal-configuracion', "Certificación: " + curso + " - " + corto, 'modal-xl', false, 'static');
+
+                    $("#imagen_personalizado").dropzone({
+                        url: "/configuracion/subirBannerCurso",
+                        addRemoveLinks: true,
+                        acceptedFiles: "image/jpeg, image/png, image/jpg",
+                        maxFilesize: 0.6,
+                        maxFiles: 1,
+                        init: function() {
+                            this.on("addedfile", function(file) {
+                                imagen_personalizado.push(file);
+                            });
+
+                            this.on("removedfile", function(file) {
+                                var index = imagen_personalizado.indexOf(file);
+                                imagen_personalizado.splice(index, 1);
+                            });
+                        },
+                    });
+                }).fail(function(xhr) {});
+            }).on('click', "#configuracion-entrega", function(e) {
+                let id = $(this).data('id');
+                let curso = $(this).data('curso');
+                let corto = $(this).data('corto');
+                $.ajax({
+                    url: "<?= base_url(route_to('edit-frm-entrega')) ?>",
+                    type: 'GET',
+                    data: {
+                        id
+                    }
+                }).done(function(data) {
+                    $("#modal-configuracion-body").html(data.vista);
+                    // Edit
+                    $("#id_configuracion").val(id);
+                    $("#shortname").val(corto);
+                    $("#certificado_disponible").val(data.data[0].certificado_disponible);
+                    $("#inicio").val(data.data[0].inicio);
+                    $("#fin").val(data.data[0].fin);
+
+                    parametrosModal('#modal-configuracion', "Entrega: " + curso + " - " + corto, 'modal-xl', false, 'static');
+
+                }).fail(function(xhr) {});
+            }).on('click', "#configuracion-finalizar", function(e) {
+                let id = $(this).data('id');
+                let curso = $(this).data('curso');
+                let corto = $(this).data('corto');
+
+                Swal.fire({
+                    title: "Estas seguro de terminar la configuracion del curso: " + curso + " -" + corto + "?",
+                    text: "Después de finalizar no se puede realizar ningún cambio en la configuración del curso",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Si, terminar!",
+                    cancelButtonText: "No, Cancelar!",
+                    reverseButtons: true,
+                }).then(function(result) {
+                    if (result.value) {
+                        $.post("<?= base_url(route_to('terminar-configuracion')) ?>", {
+                                id,
+                            },
+                            function(response) {
+                                if (typeof response.success != "undefined") {
+                                    Swal.fire("Exito!", response.success, "success");
+                                    tableConfiguracion.DataTable().ajax.reload(null, false);
+                                }
+                                if (typeof response.error != "undefined") {
+                                    Swal.fire("Error!", response.error, "error");
+                                }
+                            }
+                        );
+                    } else if (result.dismiss === "cancel") {
+                        Swal.fire(
+                            "Cancelado",
+                            "La configuracion del curso no ha finalizado aún :)",
+                            "error"
+                        );
+                    }
+                });
             });
 
             $('#kt_datatable_search_status').on('change', function() {
@@ -272,6 +369,7 @@ Configuración
                 processData: false,
                 dataType: "JSON",
             }).done(function(data) {
+                banner_curso = [];
                 if (typeof data.success != 'undefined') {
                     tableConfiguracion.DataTable().ajax.reload(null, false);
                     $("#modal-configuracion").modal('hide');
@@ -306,6 +404,88 @@ Configuración
 
             $.ajax({
                 url: "<?= base_url(route_to('guardar-certificacion')); ?>",
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "JSON",
+            }).done(function(data) {
+                imagen = [];
+                if (typeof data.success != 'undefined') {
+                    tableConfiguracion.DataTable().ajax.reload(null, false);
+                    $("#modal-configuracion").modal('hide');
+                    Swal.fire({
+                        icon: "success",
+                        title: data.success,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                }
+
+                if (typeof data.error != 'undefined') {
+                    $("#modal-configuracion").modal('hide');
+                    Swal.fire({
+                        icon: "error",
+                        title: data.error,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }
+            });
+
+        });
+
+        // guardar personalizacion
+        $("#kt_body").on("submit", "#frm-personalizacion", function(e) {
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            if (imagen_personalizado.length == 1 && imagen_personalizado[0].status == "success")
+                formData.append("imagen_personalizado", imagen_personalizado[0].dataURL);
+
+            $.ajax({
+                url: "<?= base_url(route_to('guardar-personalizacion')); ?>",
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "JSON",
+            }).done(function(data) {
+                imagen_personalizado = [];
+                if (typeof data.success != 'undefined') {
+                    tableConfiguracion.DataTable().ajax.reload(null, false);
+                    $("#modal-configuracion").modal('hide');
+                    Swal.fire({
+                        icon: "success",
+                        title: data.success,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                }
+
+                if (typeof data.error != 'undefined') {
+                    $("#modal-configuracion").modal('hide');
+                    Swal.fire({
+                        icon: "error",
+                        title: data.error,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }
+            });
+
+        });
+
+        // guardar personalizacion
+        $("#kt_body").on("submit", "#frm-entrega", function(e) {
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: "<?= base_url(route_to('guardar-entrega')); ?>",
                 type: 'POST',
                 data: formData,
                 cache: false,

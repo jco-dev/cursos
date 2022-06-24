@@ -51,6 +51,11 @@ $routes->get('frm-publicacion', 'Configuracion::editFrmPublicacion', ['as' => 'e
 $routes->post('guardar-publicacion', 'Configuracion::guardarPublicacion', ['as' => 'guardar-publicacion']);
 $routes->get('frm-certificacion', 'Configuracion::editFrmCertificacion', ['as' => 'edit-frm-certificacion']);
 $routes->post('guardar-certificacion', 'Configuracion::guardarCertificacion', ['as' => 'guardar-certificacion']);
+$routes->get('frm-personalizacion', 'Configuracion::editFrmPersonalizacion', ['as' => 'edit-frm-personalizacion']);
+$routes->post('guardar-personalizacion', 'Configuracion::guardarPersonalizacion', ['as' => 'guardar-personalizacion']);
+$routes->get('frm-entrega', 'Configuracion::editFrmEntrega', ['as' => 'edit-frm-entrega']);
+$routes->post('guardar-entrega', 'Configuracion::guardarEntrega', ['as' => 'guardar-entrega']);
+$routes->post('terminar-configuracion', 'Configuracion::terminarConfiguracion', ['as' => 'terminar-configuracion']);
 
 
 /*
