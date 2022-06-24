@@ -17,6 +17,12 @@ class Ofertas extends BaseController
     {
         $data = $this->curso_model->getCursosVigentes();
         $cursos = $this->listadoCursos($data);
+        // $encrypter = \Config\Services::encrypter();
+        // $plainText  = '10';
+        // $ciphertext = base64_encode( $encrypter->encrypt($plainText));
+
+        // Outputs: This is a plain-text message!
+        // return var_dump($ciphertext, $encrypter->decrypt(base64_decode($ciphertext)));
         return view('ofertas/index', ['curso' => $cursos]);
     }
 
@@ -41,5 +47,11 @@ class Ofertas extends BaseController
             </div>';
 
         return $curso;
+    }
+
+    public function descargarInfografia()
+    {
+        $id_course = $this->request->getVar('id');
+        var_dump($id_course);
     }
 }

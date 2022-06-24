@@ -264,6 +264,7 @@
     <script src="<?= base_url('assets/js/expander/jquery.expander.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/expander/custom.js') ?>"></script>
     <script src="<?= base_url('assets/js/video/index.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/oferta/index.js') ?>"></script>
 </body>
 
 </html>

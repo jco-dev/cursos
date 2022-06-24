@@ -32,7 +32,6 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Verificar::index');
-
 $routes->get('/ofertas', 'Ofertas::index', ['as' => 'ofertas']);
 
 // login
@@ -56,6 +55,9 @@ $routes->post('guardar-personalizacion', 'Configuracion::guardarPersonalizacion'
 $routes->get('frm-entrega', 'Configuracion::editFrmEntrega', ['as' => 'edit-frm-entrega']);
 $routes->post('guardar-entrega', 'Configuracion::guardarEntrega', ['as' => 'guardar-entrega']);
 $routes->post('terminar-configuracion', 'Configuracion::terminarConfiguracion', ['as' => 'terminar-configuracion']);
+
+// Ofertas
+$routes->get('descargar-infografia', 'Ofertas::descargarInfografia', ['as' => 'descargar-infografia']);
 
 
 /*

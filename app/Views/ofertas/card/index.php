@@ -190,8 +190,9 @@
                 </div>
                 <!-- Acciones -->
                 <div class="d-flex justify-content-around pt-3">
-                    <a href="" target="_blank" class="btn btn-primary btn-shadow-hover btn-sm">
-                    <i class="fa fa-file"></i>
+                    <?php $encrypter = \Config\Services::encrypter(); ?>
+                    <a href="<?= base_url($curso->pdf) ?>" download class="btn btn-primary btn-shadow-hover btn-sm">
+                        <i class="fa fa-file-pdf"></i>
                         Contenido
                     </a>
                     <a class="btn btn-primary btn-shadow-hover font-size-sm btn-sm" href="" data-id="" target="_blank">
