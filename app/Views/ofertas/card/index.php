@@ -190,7 +190,7 @@
                 </div>
                 <!-- Acciones -->
                 <div class="d-flex justify-content-around pt-3">
-                    <?php $encrypter = \Config\Services::encrypter(); ?>
+                   
                     <a href="<?= base_url($curso->pdf) ?>" download class="btn btn-primary btn-shadow-hover btn-sm">
                         <i class="fa fa-file-pdf"></i>
                         Contenido
@@ -198,7 +198,7 @@
                     <a class="btn btn-primary btn-shadow-hover font-size-sm btn-sm" href="" data-id="" target="_blank">
                         M&aacute;s informaci&oacute;n
                     </a>
-                    <a href="" class="btn btn-primary btn-shadow-hover btn-sm px-4" target="_blank">
+                    <a href="<?= base_url(route_to('Inscripcion::index', $curso_id))?>" class="btn btn-primary btn-shadow-hover btn-sm px-4" target="_blank">
                         <i class="fa fa-check"></i>
                         Inscribirse
                     </a>

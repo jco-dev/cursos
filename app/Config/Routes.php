@@ -57,7 +57,8 @@ $routes->post('guardar-entrega', 'Configuracion::guardarEntrega', ['as' => 'guar
 $routes->post('terminar-configuracion', 'Configuracion::terminarConfiguracion', ['as' => 'terminar-configuracion']);
 
 // Ofertas
-$routes->get('descargar-infografia', 'Ofertas::descargarInfografia', ['as' => 'descargar-infografia']);
+// $routes->get('descargar-infografia', 'Ofertas::descargarInfografia', ['as' => 'descargar-infografia']);
+$routes->get('inscripcion/(:any)', 'Inscripcion::index/$1');
 
 
 /*

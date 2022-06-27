@@ -4,13 +4,18 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\CursoModel;
+use Config\Encryption;
 
 class Ofertas extends BaseController
 {
     public $curso_model;
+    protected $config;
+    protected $encrypter;
     public function __construct()
     {
         $this->curso_model = new CursoModel();
+        $this->config = new Encryption();
+        $this->encrypter = \Config\Services::encrypter($this->config);
     }
 
     public function index()
@@ -21,17 +26,19 @@ class Ofertas extends BaseController
         // $plainText  = '10';
         // $ciphertext = base64_encode( $encrypter->encrypt($plainText));
 
-        // Outputs: This is a plain-text message!
         // return var_dump($ciphertext, $encrypter->decrypt(base64_decode($ciphertext)));
         return view('ofertas/index', ['curso' => $cursos]);
     }
 
     public function listadoCursos($data)
     {
+        $encrypter = \Config\Services::encrypter(); 
+        // $encrypted_data =  bin2hex($encrypter->encrypt($data));
         $curso = NULL;
         if (count($data) > 0) {
-            foreach ($data as $value)
-                $curso .= view('ofertas/card/index', ['curso' => $value]);
+            foreach ($data as $value) {
+                $curso .= view('ofertas/card/index', ['curso' => $value, 'curso_id' => bin2hex($encrypter->encrypt($value->id))]);
+            }
         } else
             $curso = '<div class="alert alert-primary d-flex align-items-center p-5 mb-10">
                 <span class="svg-icon svg-icon-2hx svg-icon-primary me-4">
@@ -49,9 +56,18 @@ class Ofertas extends BaseController
         return $curso;
     }
 
-    public function descargarInfografia()
+    public function testEncryption($data)
     {
-        $id_course = $this->request->getVar('id');
-        var_dump($id_course);
+        $enc = \Config\Services::encrypter();
+
+        $encrypted_string = "9c68ef9159...";
+
+        try {
+            // print the encrypted string
+            return $enc->decrypt(hex2bin($data));
+        } catch (\Exception $e) {
+            // or if encrypted_string is not valid then show 404 page or do whatever you want
+            return view('errors/html/error_404');
+        }
     }
 }

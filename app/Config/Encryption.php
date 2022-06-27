@@ -23,7 +23,7 @@ class Encryption extends BaseConfig
      *
      * @var string
      */
-    public $key = '*Eo#Sv3@g6tPB*zPCPZmUkH4e!s@yf4GPlQn6!^5fUDn5fi2Ku';
+    public $key = "4zLRrrUn3R83EvZTjGFq0C5AG3WAgNZljco";
 
     /**
      * --------------------------------------------------------------------------
@@ -63,5 +63,5 @@ class Encryption extends BaseConfig
      *
      * @var string
      */
-    public $digest = 'SHA256';
+    public $digest = 'SHA512';
 }
