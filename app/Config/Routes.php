@@ -58,7 +58,13 @@ $routes->post('terminar-configuracion', 'Configuracion::terminarConfiguracion', 
 
 // Ofertas
 // $routes->get('descargar-infografia', 'Ofertas::descargarInfografia', ['as' => 'descargar-infografia']);
-$routes->get('inscripcion/(:any)', 'Inscripcion::index/$1');
+
+// Preinscripcion
+$routes->get('preinscripcion/(:any)', 'Preinscripcion::index/$1');
+$routes->post('/buscar-ci', 'Preinscripcion::verificarCi', ['as' => 'buscar-ci']);
+$routes->post('/verificar-cupon', 'Preinscripcion::verificarCupon', ['as' => 'verificar-cupon']);
+$routes->post('/porcentaje-cupon', 'Preinscripcion::porcentajeCupon', ['as' => 'porcentaje-cupon']);
+$routes->post('/guardar-preinscripcion', 'Preinscripcion::save', ['as' => 'guardar-preinscripcion']);
 
 
 /*

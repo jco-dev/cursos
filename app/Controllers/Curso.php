@@ -123,7 +123,7 @@ class Curso extends BaseController
             "db" => $this->db->database,
         );
 
-        $table = "vista_listado_cursos";
+        $table = "praq_vista_listado_cursos";
 
         //primary key
         $primaryKey = "id";
