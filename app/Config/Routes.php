@@ -67,6 +67,10 @@ $routes->post('/porcentaje-cupon', 'Preinscripcion::porcentajeCupon', ['as' => '
 $routes->post('/verificar-registro', 'Preinscripcion::verificarRegistroCurso', ['as' => 'verificar-registro']);
 $routes->post('/guardar-preinscripcion', 'Preinscripcion::save', ['as' => 'guardar-preinscripcion']);
 
+// Información
+$routes->get('informacion/(:any)', 'Informacion::index/$1');
+$routes->post('/guardar-informacion', 'Informacion::save', ['as' => 'guardar-informacion']);
+
 
 /*
  * --------------------------------------------------------------------
