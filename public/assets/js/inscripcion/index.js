@@ -79,15 +79,68 @@ var KTPreinscripcion = (function () {
           e.preventDefault();
           formSubmitButton.disabled = true;
           formSubmitButton.setAttribute("data-kt-indicator", "on");
-          let data = new FormData($('#frm-preinscripcion')[0]);
+          let data = new FormData($("#frm-preinscripcion")[0]);
           $.ajax({
-            type: $('#frm-preinscripcion').attr("method"),
-            url: $('#frm-preinscripcion').attr("action"),
+            type: $("#frm-preinscripcion").attr("method"),
+            url: $("#frm-preinscripcion").attr("action"),
             data: data,
             cache: false,
             contentType: false,
             processData: false,
             dataType: "JSON",
+          }).done(function (response) {
+            formSubmitButton.disabled = false;
+            formSubmitButton.setAttribute("data-kt-indicator", "off");
+            if (typeof response.exito != "undefined") {
+              Swal.fire({
+                title: response.exito,
+                text: "¡Gracias por inscribirse!",
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+              }).then(function (result) {
+                if (result.value) {
+                  $("#frm-preinscripcion").trigger("reset");
+                  location.reload();
+                }
+              });
+            }
+            if (typeof response.error != "undefined") {
+              Swal.fire({
+                title: response.error,
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+              }).then(function (result) {
+                if (result.value) {
+                  location.reload();
+                  limpiar_formulario();
+                  $("#frm_curso_inscripcion").trigger("reset");
+                }
+              });
+            }
+            if (typeof response.warning != "undefined") {
+              Swal.fire({
+                title: response.warning,
+                icon: "warning",
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+              });
+            }
+
+            if (typeof response.info != "undefined") {
+              Swal.fire({
+                title: response.info,
+                icon: "info",
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+              }).then(function (result) {
+                if (result.value) {
+                  location.reload();
+                  $("#frm-preinscripcion").trigger("reset");
+                }
+              });
+            }
           });
         } else {
           Swal.fire({
@@ -533,7 +586,7 @@ KTUtil.onDOMContentLoaded(function () {
   });
 
   // Verficar registro //
-  $("#ci").on("change keyup", function (e) {
+  $("#ci").on("change", function (e) {
     let ci = $(this).val();
     if (ci.length >= 4) {
       $.post(
@@ -595,7 +648,7 @@ KTUtil.onDOMContentLoaded(function () {
       );
     }
     verificarCupones(ci);
-    // verificar_registro($("#ci").val(), $("#id").val());
+    verificarRegistro($("#ci").val(), $("#id").val());
   });
 
   // Funciones //
@@ -606,6 +659,31 @@ KTUtil.onDOMContentLoaded(function () {
       opcion += "<option value='" + i + "'>" + i + "</option>";
     }
     $("#dia").append(opcion);
+  };
+
+  const verificarRegistro = (ci, id) => {
+    $.post(
+      window.location.origin + "/verificar-registro",
+      { ci, id },
+      function (response) {
+        if (response.data) {
+          Swal.fire({
+            title: "Advertencia !!!",
+            text: "Ya se encuentra registrado en el Curso.",
+            icon: "warning",
+            showCancelButton: false,
+            confirmButtonText: "OK",
+            reverseButtons: true,
+          }).then(function (result) {
+            if (result.value) {
+              limpiarDatosPersonales();
+              $("#ci").val("");
+              $("#ci").focus();
+            }
+          });
+        }
+      }
+    );
   };
 
   const limpiarDatosPersonales = () => {

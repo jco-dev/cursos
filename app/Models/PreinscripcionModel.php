@@ -50,8 +50,34 @@ class PreinscripcionModel extends Model
     public function getConfiguracion($id)
     {
         $builder = $this->db->table('vista_listado_configuracion');
-        $builder->select('fecha_inicio, fecha_fin, fecha_limite_inscripcion, nota_aprobacion, carga_horaria, descripcion, banner, pago_qr, pago_qr_descuento, inversion, descuento, fecha_inicio_descuento, fecha_fin_descuento');
+        $builder->select('fecha_inicio, fecha_fin, fecha_limite_inscripcion, nota_aprobacion, carga_horaria, descripcion, banner, pago_qr, pago_qr_descuento, inversion, descuento, fecha_inicio_descuento, fecha_fin_descuento, celular_referencia');
         $builder->where('id', $id);
+        $query = $builder->get();
+        return $query->getResult();
+    }
+
+    public function verificarPreinscripcionCurso($ci, $id_course)
+    {
+        $builder = $this->db->table('participante p');
+        $builder->select('p.id_participante, p.ci, p.expedido, p.nombre, p.paterno, p.materno, p.genero, p.fecha_nacimiento, p.celular, p.correo,
+        pp.id_course, pp.tipo_pago, pp.nro_transaccion, pp.monto_pago, pp.fecha_pago, pp.tipo_certificacion, pp.certificacion, pp.respaldo_pago, pp.estado');
+        $builder->join('preinscripcion pp', 'p.id_participante=pp.id_participante');
+        $builder->where('p.ci', $ci);
+        $builder->where('pp.id_course', $id_course);
+        $query = $builder->get();
+        return $query->getResult();
+    }
+
+    public function verificarCuponCi($ci, $cupon)
+    {
+        $builder = $this->db->table('cupones_participante cp');
+        $builder->select('*');
+        $builder->join('participante p', 'cp.id_participante = p.id_participante');
+        $builder->join('cupones c', 'cp.id_cupones = c.id_cupones');
+        $builder->where('cp.numero_cupon', $cupon);
+        $builder->where('p.ci', $ci);
+        $builder->where('cp.estado', 'REGISTRADO');
+        $builder->where('c.fecha_fin_canje >=', date('Y-m-d'));
         $query = $builder->get();
         return $query->getResult();
     }
