@@ -191,7 +191,7 @@
                 <!-- Acciones -->
                 <div class="d-flex justify-content-around pt-3">
 
-                    <a href="<?= base_url($curso->pdf) ?>" download class="btn btn-primary btn-shadow-hover btn-sm">
+                    <a href="<?= base_url($curso->pdf) ?>" download="info.pdf" class="btn btn-primary btn-shadow-hover btn-sm">
                         <i class="fa fa-file-pdf"></i>
                         Contenido
                     </a>
