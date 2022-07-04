@@ -10,7 +10,6 @@ class Ofertas extends BaseController
 {
     public $curso_model;
     protected $config;
-    protected $encrypter;
     public function __construct()
     {
         $this->curso_model = new CursoModel();
@@ -22,24 +21,22 @@ class Ofertas extends BaseController
     {
         $data = $this->curso_model->getCursosVigentes();
         $cursos = $this->listadoCursos($data);
-        // $encrypter = \Config\Services::encrypter();
-        // $plainText  = '10';
-        // $ciphertext = base64_encode( $encrypter->encrypt($plainText));
-
-        // return var_dump($ciphertext, $encrypter->decrypt(base64_decode($ciphertext)));
         return view('ofertas/index', ['curso' => $cursos]);
     }
 
-    public function listadoCursos($data)
+    public function listadoCursos($data = null)
     {
-        $encrypter = \Config\Services::encrypter(); 
+        $encrypter = \Config\Services::encrypter();
         // $encrypted_data =  bin2hex($encrypter->encrypt($data));
         $curso = NULL;
-        if (count($data) > 0) {
+        if (count($data) > 0)
             foreach ($data as $value) {
-                $curso .= view('ofertas/card/index', ['curso' => $value, 'curso_id' => bin2hex($encrypter->encrypt($value->id))]);
+                $this->data['curso'] = $value;
+                $this->data['curso_id'] = bin2hex($encrypter->encrypt($value->id));
+
+                $curso .= view('ofertas/card/index', $this->data);
             }
-        } else
+        else
             $curso = '<div class="alert alert-primary d-flex align-items-center p-5 mb-10">
                 <span class="svg-icon svg-icon-2hx svg-icon-primary me-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -54,20 +51,5 @@ class Ofertas extends BaseController
             </div>';
 
         return $curso;
-    }
-
-    public function testEncryption($data)
-    {
-        $enc = \Config\Services::encrypter();
-
-        $encrypted_string = "9c68ef9159...";
-
-        try {
-            // print the encrypted string
-            return $enc->decrypt(hex2bin($data));
-        } catch (\Exception $e) {
-            // or if encrypted_string is not valid then show 404 page or do whatever you want
-            return view('errors/html/error_404');
-        }
     }
 }

@@ -129,8 +129,16 @@ Configuración
                         acceptedFiles: "image/jpeg, image/png, image/jpg",
                         maxFilesize: 0.4,
                         maxFiles: 1,
+                        uploadMultiple: false,
+                        addRemoveLinks: true,
                         init: function() {
                             this.on("addedfile", function(file) {
+                                let MyDropzone = this;
+                                MyDropzone.on('complete', function(file) {
+                                    if (file.status == 'error') {
+                                        MyDropzone.removeFile(file);
+                                    }
+                                });
                                 banner_curso.push(file);
                                 // console.log(banner_curso);
                             });
@@ -205,6 +213,12 @@ Configuración
                         maxFiles: 1,
                         init: function() {
                             this.on("addedfile", function(file) {
+                                let MyDropzone = this;
+                                MyDropzone.on('complete', function(file) {
+                                    if (file.status == 'error') {
+                                        MyDropzone.removeFile(file);
+                                    }
+                                });
                                 imagen.push(file);
                             });
 
@@ -246,6 +260,12 @@ Configuración
                         maxFiles: 1,
                         init: function() {
                             this.on("addedfile", function(file) {
+                                let MyDropzone = this;
+                                MyDropzone.on('complete', function(file) {
+                                    if (file.status == 'error') {
+                                        MyDropzone.removeFile(file);
+                                    }
+                                });
                                 imagen_personalizado.push(file);
                             });
 

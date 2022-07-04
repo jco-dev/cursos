@@ -1,6 +1,8 @@
 <div class="col-sm-12 col-md-6 col-lg-4">
     <div class="card shadow-lg">
-        <img class="img-fluid" style="height: 165px; border-radius: 6px 6px 0px 0px" src="<?= base_url($curso->banner) ?>" alt="Banner del curso" />
+        <?php if ($curso->banner != NULL) { ?>
+            <img class="img-fluid" style="height: 165px; border-radius: 6px 6px 0px 0px" src="<?= base_url($curso->banner) ?>" alt="Banner del curso" />
+        <?php } ?>
         <?php if (strtotime(date('d-m-Y')) >= strtotime($curso->fecha_inicio_descuento) && strtotime(date('d-m-Y')) <= strtotime($curso->fecha_fin_descuento) && $curso->descuento > 0) { ?>
             <div class="stack-top" style="--c: red">- <?= $curso->descuento ?>%</div>
         <?php } ?>

@@ -49,7 +49,7 @@
                                     </div>
 
                                     <div class="row fv-row pt-2">
-                                        <div class="col-lg-9 col-sm-12">
+                                        <div class="col-lg-9 <?= (strtotime(date('d-m-Y')) >= strtotime($configuracion[0]->fecha_inicio_descuento) && strtotime(date('d-m-Y')) <= strtotime($configuracion[0]->fecha_fin_descuento) && $configuracion[0]->descuento > 0) ?> col-sm-12">
                                             <div class="lh-lg mb-2">
                                                 <?php if ($configuracion[0]->fecha_limite_inscripcion >= date('Y-m-d')) { ?>
                                                     &nbsp;🪙 <strong>INVERSIÓN</strong>:
@@ -99,18 +99,29 @@
                                         </div>
                                         <div class="col-lg-3 col-md-12">
                                             <div class="card">
-                                                <h4>
-                                                    <span class="font-size-md font-weight-normal text-dark d-flex justify-content-center">PAGO RÁPIDO</span>
-                                                </h4>
-                                                <div class="card card-custom p-0">
-                                                    <div class="card-body p-0 d-flex justify-content-center">
-                                                        <?php if (strtotime(date('d-m-Y')) >= strtotime($configuracion[0]->fecha_inicio_descuento) && strtotime(date('d-m-Y')) <= strtotime($configuracion[0]->fecha_fin_descuento) && $configuracion[0]->descuento > 0) { ?>
-                                                            <img src="<?= base_url($configuracion[0]->pago_qr_descuento) ?>" alt="Pago rápido" class="img-fluid rounded" style="width: auto; height: 157px; border: 2px solid #000000" />
-                                                        <?php } else { ?>
-                                                            <img src="<?= base_url($configuracion[0]->pago_qr) ?>" alt="Pago rápido" class="img-fluid rounded" style="width: auto; height: 157px; border: 2px solid #000000" />
-                                                        <?php } ?>
-                                                    </div>
-                                                </div>
+                                                <?php if (strtotime(date('d-m-Y')) >= strtotime($configuracion[0]->fecha_inicio_descuento) && strtotime(date('d-m-Y')) <= strtotime($configuracion[0]->fecha_fin_descuento) && $configuracion[0]->descuento > 0) {
+                                                    if ($configuracion[0]->pago_qr_descuento != NULL) { ?>
+                                                        <h4>
+                                                            <span class="font-size-md font-weight-normal text-dark d-flex justify-content-center">PAGO RÁPIDO</span>
+                                                        </h4>
+                                                        <div class="card card-custom p-0">
+                                                            <div class="card-body p-0 d-flex justify-content-center">
+                                                                <img src="<?= base_url($configuracion[0]->pago_qr_descuento) ?>" alt="Pago rápido" class="img-fluid rounded" style="width: auto; height: 157px; border: 2px solid #000000" />
+                                                            </div>
+                                                        </div>
+                                                    <?php }
+                                                } else {
+                                                    if ($configuracion[0]->pago_qr != NULL) { ?>
+                                                        <h4>
+                                                            <span class="font-size-md font-weight-normal text-dark d-flex justify-content-center">PAGO RÁPIDO</span>
+                                                        </h4>
+                                                        <div class="card card-custom p-0">
+                                                            <div class="card-body p-0 d-flex justify-content-center">
+                                                                <img src="<?= base_url($configuracion[0]->pago_qr) ?>" alt="Pago rápido" class="img-fluid rounded" style="width: auto; height: 157px; border: 2px solid #000000" />
+                                                            </div>
+                                                        </div>
+                                                <?php }
+                                                } ?>
                                             </div>
                                         </div>
                                     </div>
