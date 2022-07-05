@@ -33,7 +33,7 @@
                             <span class="navi-text text-muted text-hover-primary">juanzapanacondori@gmail.com</span>
                         </span>
                     </a>
-                    <a href="#" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Salir</a>
+                    <a href="<?= base_url(route_to('salir')) ?>" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Salir</a>
                 </div>
             </div>
         </div>

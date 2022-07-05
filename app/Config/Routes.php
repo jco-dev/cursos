@@ -39,26 +39,6 @@ $routes->get('/login', 'Auth::index', ['as' => 'login']);
 $routes->post('/login', 'Auth::autentificar', ['as' => 'autentificar']);
 $routes->get('/salir', 'Auth::salir', ['as' => 'salir']);
 
-// cursos
-$routes->get('/cursos', 'Curso::index', ['as' => 'cursos']);
-$routes->get('curso-ajax-datatable', 'Curso::ajaxDatatable', ['as' => 'curso-ajax-datatable']);
-
-// configuracion
-$routes->get('/configuracion', 'Configuracion::index', ['as' => 'configuracion']);
-$routes->get('configuracion-ajax-datatable', 'Configuracion::ajaxDatatable', ['as' => 'configuracion-ajax-datatable']);
-$routes->get('frm-publicacion', 'Configuracion::editFrmPublicacion', ['as' => 'edit-frm-publicacion']);
-$routes->post('guardar-publicacion', 'Configuracion::guardarPublicacion', ['as' => 'guardar-publicacion']);
-$routes->get('frm-certificacion', 'Configuracion::editFrmCertificacion', ['as' => 'edit-frm-certificacion']);
-$routes->post('guardar-certificacion', 'Configuracion::guardarCertificacion', ['as' => 'guardar-certificacion']);
-$routes->get('frm-personalizacion', 'Configuracion::editFrmPersonalizacion', ['as' => 'edit-frm-personalizacion']);
-$routes->post('guardar-personalizacion', 'Configuracion::guardarPersonalizacion', ['as' => 'guardar-personalizacion']);
-$routes->get('frm-entrega', 'Configuracion::editFrmEntrega', ['as' => 'edit-frm-entrega']);
-$routes->post('guardar-entrega', 'Configuracion::guardarEntrega', ['as' => 'guardar-entrega']);
-$routes->post('terminar-configuracion', 'Configuracion::terminarConfiguracion', ['as' => 'terminar-configuracion']);
-
-// Ofertas
-// $routes->get('descargar-infografia', 'Ofertas::descargarInfografia', ['as' => 'descargar-infografia']);
-
 // Preinscripcion
 $routes->get('preinscripcion/(:any)', 'Preinscripcion::index/$1');
 $routes->post('/buscar-ci', 'Preinscripcion::verificarCi', ['as' => 'buscar-ci']);
@@ -70,6 +50,30 @@ $routes->post('/guardar-preinscripcion', 'Preinscripcion::save', ['as' => 'guard
 // Información
 $routes->get('informacion/(:any)', 'Informacion::index/$1');
 $routes->post('/guardar-informacion', 'Informacion::save', ['as' => 'guardar-informacion']);
+
+// Administración de cursos //
+// Principal
+$routes->get('/principal', 'Principal::index', ['as' => 'principal', 'filter' => 'auth']);
+
+// cursos
+$routes->get('/cursos', 'Curso::index', ['as' => 'cursos', 'filter' => 'auth']);
+$routes->get('curso-ajax-datatable', 'Curso::ajaxDatatable', ['as' => 'curso-ajax-datatable', 'filter' => 'auth']);
+
+// configuracion
+$routes->group('', ['filter' => 'auth'], static function ($routes) {
+    $routes->get('/configuracion', 'Configuracion::index', ['as' => 'configuracion']);
+    $routes->get('configuracion-ajax-datatable', 'Configuracion::ajaxDatatable', ['as' => 'configuracion-ajax-datatable']);
+    $routes->get('frm-publicacion', 'Configuracion::editFrmPublicacion', ['as' => 'edit-frm-publicacion']);
+    $routes->post('guardar-publicacion', 'Configuracion::guardarPublicacion', ['as' => 'guardar-publicacion']);
+    $routes->get('frm-certificacion', 'Configuracion::editFrmCertificacion', ['as' => 'edit-frm-certificacion']);
+    $routes->post('guardar-certificacion', 'Configuracion::guardarCertificacion', ['as' => 'guardar-certificacion']);
+    $routes->get('frm-personalizacion', 'Configuracion::editFrmPersonalizacion', ['as' => 'edit-frm-personalizacion']);
+    $routes->post('guardar-personalizacion', 'Configuracion::guardarPersonalizacion', ['as' => 'guardar-personalizacion']);
+    $routes->get('frm-entrega', 'Configuracion::editFrmEntrega', ['as' => 'edit-frm-entrega']);
+    $routes->post('guardar-entrega', 'Configuracion::guardarEntrega', ['as' => 'guardar-entrega']);
+    $routes->post('terminar-configuracion', 'Configuracion::terminarConfiguracion', ['as' => 'terminar-configuracion']);
+});
+
 
 
 /*

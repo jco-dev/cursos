@@ -18,6 +18,9 @@ class Auth extends BaseController
 
     public function index()
     {
+        if (session()->has('logged_in')) {
+            return redirect()->to(base_url(route_to('principal')));
+        }
         return view('auth/login');
     }
 
