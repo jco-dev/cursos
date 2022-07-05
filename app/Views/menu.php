@@ -114,7 +114,7 @@
                             </svg>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-text">Agregar tipo</span>
+                        <span class="menu-text">Agregar tipo certificado</span>
                     </a>
                 </li>
             </ul>
