@@ -41,10 +41,7 @@ Cursos
                      <th>Acciones</th>
                   </tr>
                </thead>
-               <tbody>
-                  
-                  
-               </tbody>
+               <tbody></tbody>
             </table>
             <!--end: Datatable-->
          </div>
@@ -59,38 +56,63 @@ Cursos
 <script>
    var DatatableCursos = function() {
 
-   var init = function() {
-      var table = $('#tbl_cursos');
-      table.DataTable({
-         responsive: true,
-         paging: true,
-         select:true,
-         ajax: {
-            url: "<?= base_url(route_to('curso-ajax-datatable')) ?>",
-            type: "GET",
+      var init = function() {
+         var table = $('#tbl_cursos');
+         table.DataTable({
+            responsive: true,
+            paging: true,
+            select: true,
+            ajax: {
+               url: "<?= base_url(route_to('curso-ajax-datatable')) ?>",
+               type: "GET",
+            }
+         });
+
+         $(document).on('click', 'a#btn-inscripcion', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            $.ajax({
+               url: "<?= base_url(route_to('inscripcion-participante')) ?>",
+               type: "POST",
+               data: {
+                  id: id
+               },
+               success: function(response) {
+                  if (typeof response.exito != "undefined") {
+                     table.DataTable().ajax.reload(null, false);
+                     Swal.fire("Exito!", response.exito, "success");
+                  }
+                  if (typeof response.error != "undefined") {
+                     Swal.fire("Error!", response.error, "error");
+                  }
+
+                  if (typeof response.warning != "undefined") {
+                     Swal.fire("Advertencia!", response.warning, "warning");
+                  }
+               }
+            });
+         });
+
+         $('#kt_datatable_search_status').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Status');
+         });
+
+         $('#kt_datatable_search_type').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Type');
+         });
+
+         $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
+      };
+
+      return {
+         init: function() {
+            init();
          }
-      });
+      };
+   }();
 
-      $('#kt_datatable_search_status').on('change', function() {
-         datatable.search($(this).val().toLowerCase(), 'Status');
-      });
-
-      $('#kt_datatable_search_type').on('change', function() {
-         datatable.search($(this).val().toLowerCase(), 'Type');
-      });
-
-      $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
-   };
-
-   return {
-      init: function() {
-         init();
-      }
-   };
-}();
-
-jQuery(document).ready(function() {
-   DatatableCursos.init();
-});
+   jQuery(document).ready(function() {
+      DatatableCursos.init();
+   });
 </script>
 <?= $this->endSection() ?>

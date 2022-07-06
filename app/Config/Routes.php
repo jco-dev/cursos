@@ -74,6 +74,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('terminar-configuracion', 'Configuracion::terminarConfiguracion', ['as' => 'terminar-configuracion']);
 });
 
+// configuracion de cursos //
+// Inscripcion //
+$routes->post('/inscripcion', 'Inscripcion::index', ['as' => 'inscripcion-participante', 'filter' => 'auth']);
+
 
 
 /*

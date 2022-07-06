@@ -202,104 +202,103 @@ class Curso extends BaseController
                 "dt" => 9,
                 "formatter" => function ($id, $row) {
                     return '<div class="dropdown dropdown-inline lista-opciones">
-                    <a href="#" class="btn btn-light-primary btn-sm font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones</a>
-                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                       <ul class="navi flex-column navi-hover py-2">
-                          <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
-                             Elige una acción:
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="inscripcion_estudiantes(' . $id . ')" type="button" id="btn_inscripcion" data-id=' . $id . ' class="navi-link" title="Inscripción de estudiantes de la plataforma moodle">
-                             <span class="navi-icon"><i class="la la-pen-alt"></i></span>
-                             <span class="navi-text">Inscripción participantes</span>
-                             </a>
-                          </li>
-                          <li class="navi-item">
-                             <a href="' . base_url(" cursos/ver_estudiantes/" . $id) . '" class="navi-link" title="Participantes del curso">
-                             <span class="navi-icon"><i class="la la-users"></i></span>
-                             <span class="navi-text">Participantes</span>
-                             </a>
-                          </li>
-                          <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
-                             CERTIFICACIÓN:
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="imprimir_certificados(' . $id . ')" type="button" id="btn_imprimir_todos" data-id=' . $id . ' class="navi-link" title="Imprimir certificados del curso">
-                             <span class="navi-icon"><i class="la la-print"></i></span>
-                             <span class="navi-text">Certificados</span>
-                             </a>
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="imprimir_certificado_blanco(' . $id . ')" type="button" id="btn_imprimir_blanco" data-id=' . $id . ' class="navi-link" title="Imprimir certificado en blanco del curso">
-                             <span class="navi-icon"><i class="la la-print"></i></span>
-                             <span class="navi-text">Cert. Blanco</span>
-                             </a>
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="enviar_certificados_correo(' . $id . ')" type="button" id="btn_enviar_por_correo" data-id=' . $id . ' class="navi-link" title="Enviar certificados del curso por correo">
-                             <span class="navi-icon"><i class="la la-mail-bulk"></i></span>
-                             <span class="navi-text">Enviar cert.</span>
-                             </a>
-                          </li>
-                          40
-                          <li class="navi-item">
-                             <a href="' . base_url('contactos/enviar/' . $id) . '" class="navi-link" title="Enviar correo del curso a los contactos">
-                             <span class="navi-icon"><i class="la la-mail-bulk"></i></span>
-                             <span class="navi-text">Enviar correo</span>
-                             </a>
-                          </li>
-                          <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
-                             INSCRIPCIÓN:
-                          </li>
-                          <li class="navi-item">
-                             <a href="' . base_url('inscripcionadmin/ver_inscritos/' . $id) . '" id="btn_ver_preinscritos" data-id=' . $id . ' class="navi-link" title="Listado de preinscritos del curso">
-                             <span class="navi-icon"><i class="la la-pen-square"></i></span>
-                             <span class="navi-text">Preinscritos</span>
-                             </a>
-                          </li>
-                          <li class="navi-item">
-                             <a href="' . base_url('inscripcionadmin/ver_informacion/' . $id) . '"  id="btn_ver_informacion" data-id=' . $id . ' class="navi-link" title="Listado de usuarios que pidieron información del curso">
-                             <span class="navi-icon"><i class="la la-info-circle"></i></span>
-                             <span class="navi-text">Información</span>
-                             </a>
-                          </li>
-                          <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
-                             REPORTES:
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="reporte_economico(' . $id . ')" type="button" id="btn_reporte_economico" data-id=' . $id . ' class="navi-link" title="Reporte económico del curso">
-                             <span class="navi-icon"><i class="la la-print"></i></span>
-                             <span class="navi-text">Económico</span>
-                             </a>
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="reporte_totales(' . $id . ')" type="button" id="btn_reporte_totales" data-id=' . $id . ' class="navi-link" title="Reporte económico total del curso">
-                             <span class="navi-icon"><i class="la la-money"></i></span>
-                             <span class="navi-text">Totales</span>
-                             </a>
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="reporte_estudiantes(' . $id . ')" type="button" id="btn_reporte_estudiantes" data-id=' . $id . ' class="navi-link" title="Reporte de estudiantes del curso">
-                             <span class="navi-icon"><i class="la la-print"></i></span>
-                             <span class="navi-text">Estudiantes PDF</span>
-                             </a>
-                          </li>
-                          <li class="navi-item">
-                             <a onclick="add_certificate_type(' . $id . ')" type="button" id="btn_reporte_estudiantes" data-id=' . $id . ' class="navi-link" title="Agregar tipo certificado">
-                             <span class="navi-icon"><i class="la la-plus"></i></span>
-                             <span class="navi-text">Agregar tipo certificado</span>
-                             </a>
-                          </li>
-                          </li>
-                          <li class="navi-item">
-                             <a href="' . base_url("cursos/agregar_envios/" . $id) . '" class="navi-link" title="Agregar envio de certificados">
-                             <span class="navi-icon"><i class="fa fa-truck"></i></span>
-                             <span class="navi-text">Envío de Certificados</span>
-                             </a>
-                          </li>
-                       </ul>
+                        <a href="#" class="btn btn-light-primary btn-sm font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones</a>
+                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                        <ul class="navi flex-column navi-hover py-2">
+                            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
+                                Elige una acción:
+                            </li>
+                            <li class="navi-item">
+                                <a type="button" id="btn-inscripcion" data-id="' . $id . '" class="navi-link" title="Inscripción de participantes de la plataforma moodle">
+                                <span class="navi-icon"><i class="la la-pen-alt"></i></span>
+                                <span class="navi-text">Inscripción participantes</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a href="' . base_url(" cursos/ver_estudiantes/" . $id) . '" class="navi-link" title="Participantes del curso">
+                                <span class="navi-icon"><i class="la la-users"></i></span>
+                                <span class="navi-text">Participantes</span>
+                                </a>
+                            </li>
+                            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
+                                CERTIFICACIÓN:
+                            </li>
+                            <li class="navi-item">
+                                <a type="button" id="btn_imprimir_todos" data-id=' . $id . ' class="navi-link" title="Imprimir certificados del curso">
+                                <span class="navi-icon"><i class="la la-print"></i></span>
+                                <span class="navi-text">Certificados</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a onclick="imprimir_certificado_blanco(' . $id . ')" type="button" id="btn_imprimir_blanco" data-id=' . $id . ' class="navi-link" title="Imprimir certificado en blanco del curso">
+                                <span class="navi-icon"><i class="la la-print"></i></span>
+                                <span class="navi-text">Cert. Blanco</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a onclick="enviar_certificados_correo(' . $id . ')" type="button" id="btn_enviar_por_correo" data-id=' . $id . ' class="navi-link" title="Enviar certificados del curso por correo">
+                                <span class="navi-icon"><i class="la la-mail-bulk"></i></span>
+                                <span class="navi-text">Enviar cert.</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a href="' . base_url('contactos/enviar/' . $id) . '" class="navi-link" title="Enviar correo del curso a los contactos">
+                                <span class="navi-icon"><i class="la la-mail-bulk"></i></span>
+                                <span class="navi-text">Enviar correo</span>
+                                </a>
+                            </li>
+                            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
+                                INSCRIPCIÓN:
+                            </li>
+                            <li class="navi-item">
+                                <a href="' . base_url('inscripcionadmin/ver_inscritos/' . $id) . '" id="btn_ver_preinscritos" data-id=' . $id . ' class="navi-link" title="Listado de preinscritos del curso">
+                                <span class="navi-icon"><i class="la la-pen-square"></i></span>
+                                <span class="navi-text">Preinscritos</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a href="' . base_url('inscripcionadmin/ver_informacion/' . $id) . '"  id="btn_ver_informacion" data-id=' . $id . ' class="navi-link" title="Listado de usuarios que pidieron información del curso">
+                                <span class="navi-icon"><i class="la la-info-circle"></i></span>
+                                <span class="navi-text">Información</span>
+                                </a>
+                            </li>
+                            <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
+                                REPORTES:
+                            </li>
+                            <li class="navi-item">
+                                <a onclick="reporte_economico(' . $id . ')" type="button" id="btn_reporte_economico" data-id=' . $id . ' class="navi-link" title="Reporte económico del curso">
+                                <span class="navi-icon"><i class="la la-print"></i></span>
+                                <span class="navi-text">Económico</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a onclick="reporte_totales(' . $id . ')" type="button" id="btn_reporte_totales" data-id=' . $id . ' class="navi-link" title="Reporte económico total del curso">
+                                <span class="navi-icon"><i class="la la-money"></i></span>
+                                <span class="navi-text">Totales</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a onclick="reporte_estudiantes(' . $id . ')" type="button" id="btn_reporte_estudiantes" data-id=' . $id . ' class="navi-link" title="Reporte de estudiantes del curso">
+                                <span class="navi-icon"><i class="la la-print"></i></span>
+                                <span class="navi-text">Estudiantes PDF</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a onclick="add_certificate_type(' . $id . ')" type="button" id="btn_reporte_estudiantes" data-id=' . $id . ' class="navi-link" title="Agregar tipo certificado">
+                                <span class="navi-icon"><i class="la la-plus"></i></span>
+                                <span class="navi-text">Agregar tipo certificado</span>
+                                </a>
+                            </li>
+                            </li>
+                            <li class="navi-item">
+                                <a href="' . base_url("cursos/agregar_envios/" . $id) . '" class="navi-link" title="Agregar envio de certificados">
+                                <span class="navi-icon"><i class="fa fa-truck"></i></span>
+                                <span class="navi-text">Envío de Certificados</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                 </div>';
+                </div>';
                 }
             ),
         );
