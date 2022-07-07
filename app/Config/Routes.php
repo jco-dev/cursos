@@ -77,6 +77,13 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 // configuracion de cursos //
 // Inscripcion //
 $routes->post('/inscripcion', 'Inscripcion::index', ['as' => 'inscripcion-participante', 'filter' => 'auth']);
+$routes->get('/participantes/(:any)', 'Inscripcion::participantes/$1', ['filter' => 'auth']);
+// participantes del curso
+$routes->get('participantes-ajax-datatable', 'Inscripcion::ajaxDatatable', ['as' => 'participantes-ajax-datatable']);
+$routes->post('estado-inscripcion', 'Inscripcion::estadoInscripcion', ['as' => 'estado-inscripcion', 'filter' => 'auth']);
+$routes->post('edit-inscripcion', 'Inscripcion::edit', ['as' => 'edit-inscripcion', 'filter' => 'auth']);
+$routes->post('actualizar-inscripcion', 'Inscripcion::update', ['as' => 'update-inscripcion', 'filter' => 'auth']);
+$routes->post('tipo-participacion', 'Inscripcion::tipoParticipacion', ['as' => 'tipo-participacion', 'filter' => 'auth']);
 
 
 

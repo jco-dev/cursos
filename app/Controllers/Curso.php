@@ -215,7 +215,7 @@ class Curso extends BaseController
                                 </a>
                             </li>
                             <li class="navi-item">
-                                <a href="' . base_url(" cursos/ver_estudiantes/" . $id) . '" class="navi-link" title="Participantes del curso">
+                                <a id="btn-participantes" target="_blank" href="' . base_url(route_to('Inscripcion::participantes', $id)) . '" class="navi-link" title="Participantes del curso">
                                 <span class="navi-icon"><i class="la la-users"></i></span>
                                 <span class="navi-text">Participantes</span>
                                 </a>

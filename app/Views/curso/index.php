@@ -91,7 +91,9 @@ Cursos
                   }
                }
             });
-         });
+         }).on('click', 'a#btn-participantes', function(e) {
+            
+         })
 
          $('#kt_datatable_search_status').on('change', function() {
             datatable.search($(this).val().toLowerCase(), 'Status');
