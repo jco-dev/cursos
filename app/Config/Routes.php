@@ -85,6 +85,14 @@ $routes->post('edit-inscripcion', 'Inscripcion::edit', ['as' => 'edit-inscripcio
 $routes->post('actualizar-inscripcion', 'Inscripcion::update', ['as' => 'update-inscripcion', 'filter' => 'auth']);
 $routes->post('tipo-participacion', 'Inscripcion::tipoParticipacion', ['as' => 'tipo-participacion', 'filter' => 'auth']);
 
+// Tipo Certificado //
+$routes->get('tipo-certificado', 'TipoCertificado::index', ['as' => 'tipo-certificado', 'filter' => 'auth']);
+$routes->get('tipo-certificado-datatable', 'TipoCertificado::ajaxDatatable', ['as' => 'tipo-certificado-datatable', 'filter' => 'auth']);
+$routes->get('frm-tipo-certificado', "TipoCertificado::frmTipoCertificado", ['as' => 'frm-tipo-certificado', 'filter' => 'auth']);
+$routes->post('guardar-tipo-certificado', 'TipoCertificado::save', ['as' => 'guardar-tipo-certificado', 'filter' => 'auth']);
+$routes->post('edit-tipo-certificado', 'TipoCertificado::edit', ['as' => 'edit-tipo-certificado', 'filter' => 'auth']);
+$routes->post('actualizar-tipo-certificado', 'TipoCertificado::update', ['as' => 'update-tipo-certificado', 'filter' => 'auth']);
+$routes->post('delete-tipo-certificado', 'TipoCertificado::delete', ['as' => 'delete-tipo-certificado', 'filter' => 'auth']);
 
 
 /*

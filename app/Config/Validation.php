@@ -132,4 +132,70 @@ class Validation extends BaseConfig
             'rules' => 'required',
         ]
     ];
+
+    public $tipoCertificado = [
+        'metodo' => [
+            'label' => 'Método',
+            'rules' => 'required|is_unique[tipo_certificado.metodo]',
+            'errors' => [
+                'is_unique' => 'El campo Método debe contener un valor único',
+            ],
+        ],
+        'posx_nombre_participante' => [
+            'label' => 'Posición X Nombre Participante',
+            'rules' => 'required',
+        ],
+        'posy_nombre_participante' => [
+            'label' => 'Posición Y Nombre Participante',
+            'rules' => 'required',
+        ],
+        'posx_nombre_curso' => [
+            'label' => 'Posición X Nombre Curso',
+            'rules' => 'required',
+        ],
+        'posy_nombre_curso' => [
+            'label' => 'Posición Y Nombre Curso',
+            'rules' => 'required',
+        ],
+        'posx_qr' => [
+            'label' => 'Posición X QR',
+            'rules' => 'required',
+        ],
+        'posy_qr' => [
+            'label' => 'Posición Y QR',
+            'rules' => 'required',
+        ],
+        'posx_tipo_participacion' => [
+            'label' => 'Posición X Tipo Participación',
+            'rules' => 'required',
+        ],
+        'posy_tipo_participacion' => [
+            'label' => 'Posición Y Tipo Participación',
+            'rules' => 'required',
+        ],
+        'posx_bloque_texto' => [
+            'label' => 'Posición X Bloque Texto',
+            'rules' => 'required',
+        ],
+        'posy_bloque_texto' => [
+            'label' => 'Posición Y Bloque Texto',
+            'rules' => 'required',
+        ],
+        'tamanio_texto_participante' => [
+            'label' => 'Tamaño texto participante',
+            'rules' => 'required',
+        ],
+        'tamanio_texto_curso' => [
+            'label' => 'Tamaño texto curso',
+            'rules' => 'required',
+        ],
+        'tamanio_texto_bloque' => [
+            'label' => 'Tamaño texto bloque',
+            'rules' => 'required',
+        ],
+        'orientacion' => [
+            'label' => 'Orientación del certificado',
+            'rules' => 'required',
+        ],
+    ];
 }

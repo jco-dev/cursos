@@ -7,36 +7,38 @@ use CodeIgniter\Model;
 class TipoCertificadoModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'tipocertificados';
-    protected $primaryKey       = 'id';
+    protected $table            = 'tipo_certificado';
+    protected $primaryKey       = 'id_tipo_certificado';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
-    protected $returnType       = 'array';
+    protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'imagen',
+        'metodo',
+        'posx_nombre_participante',
+        'posy_nombre_participante',
+        'posx_nombre_curso',
+        'posy_nombre_curso',
+        'posx_qr',
+        'posy_qr',
+        'posx_tipo_participacion',
+        'posy_tipo_participacion',
+        'posx_bloque_texto',
+        'posy_bloque_texto',
+        'tamanio_texto_participante',
+        'tamanio_texto_curso',
+        'tamanio_texto_bloque',
+        'orientacion',
+        'estado'
+    ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    protected $createdField  = 'creado_el';
+    protected $updatedField  = 'actualizado_el';
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
-
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    // Funciones //
 }
