@@ -94,6 +94,10 @@ $routes->post('edit-tipo-certificado', 'TipoCertificado::edit', ['as' => 'edit-t
 $routes->post('actualizar-tipo-certificado', 'TipoCertificado::update', ['as' => 'update-tipo-certificado', 'filter' => 'auth']);
 $routes->post('delete-tipo-certificado', 'TipoCertificado::delete', ['as' => 'delete-tipo-certificado', 'filter' => 'auth']);
 
+// Imprimir certificados curso //
+$routes->post('verificar-fecha', 'Curso::verificarFechaCertificacion', ['as' => 'verificar-fecha', 'filter' => 'auth']);
+$routes->post('imprimir-certificados', 'Curso::imprimirCertificados', ['as' => 'imprimir-certificados', 'filter' => 'auth']);
+
 
 /*
  * --------------------------------------------------------------------

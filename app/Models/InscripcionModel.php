@@ -68,4 +68,17 @@ class InscripcionModel extends Model
         ORDER BY curso, sortorder");
     return $builder->getResult();
   }
+
+  public function getParticipantesCurso($id)
+  {
+    $builder = $this->db->table('inscripcion i');
+    $builder->select('i.id_inscripcion, c.id, CONCAT_WS(" ", u.firstname, u.lastname) AS participante, i.calificacion_final, i.tipo_participacion, i.certificacion_solicitada, i.estado');
+    $builder->join('user u', 'u.id = i.id_user');
+    $builder->where('i.estado <>', 'ELIMINADO');
+    $builder->join('course c', 'c.id = i.id_course');
+    $builder->where('c.id', $id);
+    $builder->orderBy('u.firstname, u.lastname');
+    $query = $builder->get();
+    return $query->getResult();
+  }
 }

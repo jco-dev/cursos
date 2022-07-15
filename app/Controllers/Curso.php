@@ -7,6 +7,7 @@ use App\Models\CertificadoModel;
 use App\Models\ConfiguracionModel;
 use App\Models\CursoModel;
 use App\Models\EntregaModel;
+use App\Models\InscripcionModel;
 use App\Models\PersonalizacionModel;
 use App\Models\PublicacionModel;
 
@@ -19,6 +20,7 @@ class Curso extends BaseController
     public $certificado_model;
     public $personalizacion_model;
     public $entrega_model;
+    public $inscripcion_model;
     public $numeroAnterior = 0;
     public function __construct()
     {
@@ -30,6 +32,7 @@ class Curso extends BaseController
         $this->certificado_model = new CertificadoModel();
         $this->personalizacion_model = new PersonalizacionModel();
         $this->entrega_model = new EntregaModel();
+        $this->inscripcion_model = new InscripcionModel();
         $this->verificarListado();
     }
 
@@ -224,7 +227,7 @@ class Curso extends BaseController
                                 CERTIFICACIÓN:
                             </li>
                             <li class="navi-item">
-                                <a type="button" id="btn_imprimir_todos" data-id=' . $id . ' class="navi-link" title="Imprimir certificados del curso">
+                                <a type="button" id="btn-imprimir-certificados" href="' . base_url(route_to('verificar-fecha')) . '" data-id=' . $id . ' class="navi-link" title="Imprimir certificados del curso">
                                 <span class="navi-icon"><i class="la la-print"></i></span>
                                 <span class="navi-text">Certificados</span>
                                 </a>
@@ -306,5 +309,25 @@ class Curso extends BaseController
         echo json_encode(
             \SSP::simple($_GET, $dbDetails, $table, $primaryKey, $columns)
         );
+    }
+
+    public function verificarFechaCertificacion()
+    {
+        $id = $this->request->getPost('id');
+        $data = $this->configuracion_model->getDateCertificacion($id);
+        return $this->response->setJSON($data[0]);
+    }
+
+    public function imprimirCertificados()
+    {
+        $id = $this->request->getPost('id');
+        $imprimir_a = $this->request->getPost('imprimir_a');
+        $participantes = $this->inscripcion_model->getParticipantesCurso($id);
+        return var_dump($participantes);
+        if ($participantes) {
+            
+        } else {
+            return $this->response->setJSON(array('error' => 'No existen participantes en el curso para la impresión de certificados'));
+        }
     }
 }

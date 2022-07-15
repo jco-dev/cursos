@@ -91,8 +91,42 @@ Cursos
                   }
                }
             });
-         }).on('click', 'a#btn-participantes', function(e) {
-            
+         }).on('click', 'a#btn-imprimir-certificados', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let url = $(this).attr('href');
+
+            $.post(url, {
+               id
+            }, function(response) {
+               if (response.fecha_inicio === null || response.fecha_fin === null || response.fecha_certificacion === null) {
+                  Swal.fire("Error!", "No se puede imprimir los certificados, faltan configurar las fechas.", "error");
+               } else if (new Date(response.fecha_fin).getTime() > new Date(response.fecha_inicio).getTime() &&
+                  new Date(response.fecha_certificacion).getTime() > new Date(response.fecha_fin).getTime()) {
+                     Swal.fire({
+                        title: 'Seleccione',
+                        text: 'Seleccione la letra A delante del nombre del participante',
+                        input: 'select',
+                        inputOptions:{
+                           imprimir_a:{
+                              SI: 'SI',
+                              NO: 'NO'
+                           }
+                        },
+                        showCancelButton: true,
+                        inputValidator: (imprimir_a) =>{
+                           return new Promise((resolve) => {
+                              resolve();
+                              $.post("<?= base_url(route_to('imprimir-certificados'))?>", {id, imprimir_a}, function(response){
+                                 console.log(response)
+                              });
+                           })
+                        }
+                     });
+               } else {
+                  Swal.fire("Error!", "No se puede imprimir los certificados, las fechas no son correctas.", "error");
+               }
+            });
          })
 
          $('#kt_datatable_search_status').on('change', function() {

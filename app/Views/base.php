@@ -56,7 +56,7 @@
         <div class="d-flex flex-row flex-column-fluid page">
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                 <div id="kt_header" class="header header-fixed">
-                    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+                    <div class="container-fluid d-flex align-items-stretch justify-content-between" style="background-color: #f5f5f9;">
                         <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
                             <div class="header-logo">
                                 <a href="<?= base_url('principal') ?>">
